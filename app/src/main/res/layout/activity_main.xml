@@ -15,13 +15,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtContent"/>
+
         <Button
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Process"
-            android:id="@+id/button"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:text="@string/btnProcess" />
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
