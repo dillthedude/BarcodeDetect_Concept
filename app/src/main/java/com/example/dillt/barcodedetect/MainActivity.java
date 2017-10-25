@@ -56,6 +56,6 @@ public class MainActivity extends AppCompatActivity {
         Barcode thisCode = barcodes.valueAt(0);
 
         txtView.setText(thisCode.rawValue);
-
+        // <----- this app is going to be awesome!
     }
 }
