@@ -19,6 +19,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Our team is cool lawls #HACKERMAN
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
