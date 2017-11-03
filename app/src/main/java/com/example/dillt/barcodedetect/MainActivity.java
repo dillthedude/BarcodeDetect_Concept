@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView myImageView = (ImageView) findViewById(R.id.imgview);
         Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                R.drawable.code39);
+                R.drawable.ean13);
         myImageView.setImageBitmap(myBitmap); // puts the image of the barcode on the screen
 
         BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build();
-        if(!detector.isOperational()){
+        if (!detector.isOperational()) {
             txtView.setText("Could not set up the detector!"); // display warning in txtView
             return;
         }
@@ -45,8 +45,12 @@ public class MainActivity extends AppCompatActivity {
         Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
         SparseArray<Barcode> barcodes = detector.detect(frame);
 
-        Barcode thisCode = barcodes.valueAt(0);
-
-        txtView.setText(thisCode.rawValue); // display info from barcode in txtView*/
+        if (!barcodes.equals("{}")) { // this will be able to differentiate between valid barcodes and non-barcodes in the future
+            Barcode thisCode = barcodes.valueAt(0);
+            txtView.setText(thisCode.rawValue); // display info from barcode in txtView*/
+        }
+        else{
+            txtView.setText("Barcode could not be read");
+        }
     }
 }
