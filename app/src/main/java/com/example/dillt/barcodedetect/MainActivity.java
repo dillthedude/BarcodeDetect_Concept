@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
@@ -18,44 +19,34 @@ import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 public class MainActivity extends AppCompatActivity {
-
-    //Our team is cool lawls #HACKERMAN
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        TextView txtView = (TextView) findViewById(R.id.txtContent);
-
-        Button btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
+        TextView txtView = (TextView) findViewById(R.id.txtContent);//our textView is named txtView
+        Button btn = (Button) findViewById(R.id.button); // our button is named btn
+        btn.setOnClickListener(new View.OnClickListener() { // btn does nothing right now
             @Override
             public void onClick(View v) {
             }
         });
 
         ImageView myImageView = (ImageView) findViewById(R.id.imgview);
-        Bitmap myBitmap = BitmapFactory.decodeResource(
-                getApplicationContext().getResources(),
-                R.drawable.wiki);
-        myImageView.setImageBitmap(myBitmap);
+        Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(),
+                R.drawable.code39);
+        myImageView.setImageBitmap(myBitmap); // puts the image of the barcode on the screen
 
-        BarcodeDetector detector =
-                new BarcodeDetector.Builder(getApplicationContext())
-                        .setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.QR_CODE | Barcode.ALL_FORMATS | Barcode.EAN_13)
-                        .build();
+        BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build();
         if(!detector.isOperational()){
-            txtView.setText("Could not set up the detector!");
+            txtView.setText("Could not set up the detector!"); // display warning in txtView
             return;
         }
 
         Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
         SparseArray<Barcode> barcodes = detector.detect(frame);
 
-
         Barcode thisCode = barcodes.valueAt(0);
 
-        txtView.setText(thisCode.rawValue);
-        // <----- this app is going to be awesome!
+        txtView.setText(thisCode.rawValue); // display info from barcode in txtView*/
     }
 }
