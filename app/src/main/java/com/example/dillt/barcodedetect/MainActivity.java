@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         BarcodeDetector detector =
                 new BarcodeDetector.Builder(getApplicationContext())
-                        .setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.QR_CODE)
+                        .setBarcodeFormats(Barcode.DATA_MATRIX | Barcode.QR_CODE | Barcode.ALL_FORMATS | Barcode.EAN_13)
                         .build();
         if(!detector.isOperational()){
             txtView.setText("Could not set up the detector!");
