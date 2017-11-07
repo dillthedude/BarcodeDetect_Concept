@@ -4,25 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.dillt.barcodedetect.MainActivity">
+    tools:context="com.example.dillt.barcodedetect.MainActivity"
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <TextView android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/txtContent"/>
+            android:id="@+id/txtContent"
+            android:layout_gravity="center_horizontal"
+            />
 
         <Button
-            android:id="@+id/button"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="Button" />
+            android:text="Button"
+            android:id="@+id/button"
+            android:layout_gravity="center_horizontal"
+            />
 
         <Button
             android:layout_width="200dp"
@@ -35,6 +45,11 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/capturedimage"/>
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="150dp"
             android:id="@+id/imgview"/>
     </LinearLayout>
 

@@ -1,5 +1,11 @@
 package com.example.dillt.barcodedetect;
 
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -18,11 +24,31 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.File;
+
+public class MainActivity extends Activity {
+
+    Button cameraButton;
+    ImageView cameraImage;
+    static final int CAM_REQUEST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        cameraButton = (Button) findViewById(R.id.button_cam);
+        cameraImage = (ImageView) findViewById(R.id.capturedimage);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                File file = getFile();
+                camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+                startActivityForResult(camera_intent, CAM_REQUEST);
+            }
+        });
+
         TextView txtView = (TextView) findViewById(R.id.txtContent);//our textView is named txtView
         Button btn = (Button) findViewById(R.id.button); // our button is named btn
         btn.setOnClickListener(new View.OnClickListener() { // btn does nothing right now
@@ -31,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageView myImageView = (ImageView) findViewById(R.id.imgview);
+        ImageView myImageView = (ImageView) findViewById(R.id.imgview); // image of included barcode
         Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(),
                 R.drawable.ean13);
         myImageView.setImageBitmap(myBitmap); // puts the image of the barcode on the screen
@@ -44,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
         Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
         SparseArray<Barcode> barcodes = detector.detect(frame);
+        //Log.w("-----------",barcodes.valueAt(0).toString());
+        //System.out.print(barcodes.valueAt(0));
 
         if (!barcodes.equals("{}")) { // this will be able to differentiate between valid barcodes and non-barcodes in the future
             Barcode thisCode = barcodes.valueAt(0);
@@ -52,5 +80,21 @@ public class MainActivity extends AppCompatActivity {
         else{
             txtView.setText("Barcode could not be read");
         }
+        // place image that was taken into the image view to replace the other image
+        //myImageView.setImage???
+    }
+    private File getFile(){
+        File folder = new File("sdcard/barcode_detect");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        File image_file = new File(folder, "cam_image.jpg");
+        return image_file;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        String path = "sdcard/barcode_detect/cam_image.jpg";
+        cameraImage.setImageDrawable(Drawable.createFromPath(path));
     }
 }
