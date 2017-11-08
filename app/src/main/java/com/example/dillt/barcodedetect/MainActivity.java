@@ -1,28 +1,31 @@
 package com.example.dillt.barcodedetect;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.provider.MediaStore;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+
+import org.json.JSONObject;
 
 import java.io.File;
 
@@ -96,5 +99,55 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         String path = "sdcard/barcode_detect/cam_image.jpg";
         cameraImage.setImageDrawable(Drawable.createFromPath(path));
+    }
+
+    public void barCodeRequest(View view) {
+        // https://api.upcdatabase.org/search/{id}/{api_key}
+        String cameraCode = "035000521019"; // for testing
+        String OA = "kpf97zybaryzuhzjn7y7jx7s";
+        String url;// = "https://api.upcdatabase.org/search/" + cameraCode + "/" + OA;
+        url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode;
+
+        final TextView mTxtDisplay;
+        ImageView mImageView;
+        mTxtDisplay = (TextView) findViewById(R.id.mTxtDisplay);
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        mTxtDisplay.setText("Response: " + response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
+
+
+        final TextView mTextView = (TextView) findViewById(R.id.textView);
+// Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        queue.add(jsObjRequest);
+
+// Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        mTextView.setText("Response is: "+ response.substring(0,500));
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mTextView.setText("That didn't work!");
+            }
+        });
+// Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 }
