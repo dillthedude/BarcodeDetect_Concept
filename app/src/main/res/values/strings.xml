@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BarcodeDetect</string>
+    <string name="btnProcess">Process</string>
 </resources>
