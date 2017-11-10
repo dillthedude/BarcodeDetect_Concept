@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
@@ -105,36 +106,20 @@ public class MainActivity extends Activity {
         // https://api.upcdatabase.org/search/{id}/{api_key}
         String cameraCode = "035000521019"; // for testing
         String OA = "kpf97zybaryzuhzjn7y7jx7s";
-        String url;// = "https://api.upcdatabase.org/search/" + cameraCode + "/" + OA;
-        url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode;
+        String url;// = ""http://api.walmartlabs.com/v1/items?apiKey=" + OA + "&upc=" + cameraCode;
+        url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //Testing
 
         final TextView mTxtDisplay;
         ImageView mImageView;
-        mTxtDisplay = (TextView) findViewById(R.id.mTxtDisplay);
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        mTxtDisplay.setText("Response: " + response.toString());
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
-
-                    }
-                });
+        mTxtDisplay = (TextView) findViewById(R.id.textView);
 
 
         final TextView mTextView = (TextView) findViewById(R.id.textView);
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(jsObjRequest);
 
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        /*StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -146,8 +131,25 @@ public class MainActivity extends Activity {
             public void onErrorResponse(VolleyError error) {
                 mTextView.setText("That didn't work!");
             }
-        });
+        });*/
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+    @Override
+    public void onResponse(JSONObject response) {
+        mTxtDisplay.setText("Response: " + response.toString());
+        //RESPONSE is JSON, turn into ITEM
+    }
+}, new Response.ErrorListener() {
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        // TODO Auto-generated method stub
+
+    }
+});
 // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+        //queue.add(stringRequest);
+        queue.add(jsObjRequest);
     }
 }
