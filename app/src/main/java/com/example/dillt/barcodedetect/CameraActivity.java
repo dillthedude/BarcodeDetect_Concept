@@ -162,7 +162,7 @@ public class CameraActivity extends Activity {
         //queue.add(stringRequest);
         queue.add(jsObjRequest);
 
-        //Shared Prefernce Loading Test
+        //Shared Prefernce Loading Test Works
         SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
         Gson gson = new Gson();
         String json = mPrefs.getString("Item", "");

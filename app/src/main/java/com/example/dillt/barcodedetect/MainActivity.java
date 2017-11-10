@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
-        
+
     }
     public void openCamera(View view) {
         Log.d("Clicked on camera", "entered the function.");
