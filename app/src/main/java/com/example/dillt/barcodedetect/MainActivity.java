@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -32,15 +33,12 @@ import java.io.File;
 
 public class MainActivity extends Activity {
 
-    Button cameraButton;
-    ImageView cameraImage;
-    static final int CAM_REQUEST = 1;
-
+    FloatingActionButton btn_toCamera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btn_toCamera = (Button) findViewById(R.id.fab_toCamera);
+        btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
     }
     public void openCamera(View view) {
         Log.d("Clicked on camera", "entered the function.");

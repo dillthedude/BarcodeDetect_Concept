@@ -19,6 +19,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -40,7 +41,7 @@ public class CameraActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_camera);
 
         cameraButton = (Button) findViewById(R.id.button_cam);
         cameraImage = (ImageView) findViewById(R.id.capturedimage);
@@ -55,12 +56,6 @@ public class CameraActivity extends Activity {
         });
 
         TextView txtView = (TextView) findViewById(R.id.txtContent);//our textView is named txtView
-        Button btn = (Button) findViewById(R.id.button); // our button is named btn
-        btn.setOnClickListener(new View.OnClickListener() { // btn does nothing right now
-            @Override
-            public void onClick(View v) {
-            }
-        });
 
         ImageView myImageView = (ImageView) findViewById(R.id.imgview); // image of included barcode
         Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(),
@@ -80,7 +75,7 @@ public class CameraActivity extends Activity {
 
         if (!barcodes.equals("{}")) { // this will be able to differentiate between valid barcodes and non-barcodes in the future
             Barcode thisCode = barcodes.valueAt(0);
-            txtView.setText(thisCode.rawValue); // display info from barcode in txtView*/
+            txtView.setText(thisCode.rawValue); // display info from barcode in txtView
         }
         else{
             txtView.setText("Barcode could not be read");
@@ -120,7 +115,7 @@ public class CameraActivity extends Activity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
 // Request a string response from the provided URL.
-        /*StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -132,7 +127,7 @@ public class CameraActivity extends Activity {
             public void onErrorResponse(VolleyError error) {
                 mTextView.setText("That didn't work!");
             }
-        });*/
+        });
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
