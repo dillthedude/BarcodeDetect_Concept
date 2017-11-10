@@ -40,9 +40,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Button btn_toCamera = (Button) findViewById(R.id.fab_toCamera);
-
     }
     public void openCamera(View view) {
         Log.d("Clicked on camera", "entered the function.");
