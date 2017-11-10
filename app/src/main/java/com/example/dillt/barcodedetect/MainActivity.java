@@ -2,6 +2,7 @@ package com.example.dillt.barcodedetect;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -39,6 +41,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
+        
     }
     public void openCamera(View view) {
         Log.d("Clicked on camera", "entered the function.");
