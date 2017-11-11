@@ -98,6 +98,7 @@ public class CameraActivity extends Activity {
             txtView.setText("Could not set up the detector!"); // display warning in txtView
             return;
         }
+
         Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
         SparseArray<Barcode> barcodes = detector.detect(frame);
             Barcode thisCode = barcodes.valueAt(0);
