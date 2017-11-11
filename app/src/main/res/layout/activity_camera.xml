@@ -24,26 +24,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtContent"
-            android:layout_gravity="center_horizontal"
-            />
+            android:layout_gravity="center_horizontal" />
 
         <Button
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Capture Image"
             android:id="@+id/button_cam"
-            android:layout_gravity="center_horizontal"
-            />
+            android:layout_gravity="center_horizontal" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/capturedimage"/>
-
-        <ImageView
-            android:layout_width="250dp"
-            android:layout_height="150dp"
+            android:layout_width="350dp"
+            android:layout_height="300dp"
             android:id="@+id/imgview"/>
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Detect Barcode"
+            android:id="@+id/detect"
+            android:onClick="detect"/>
     </LinearLayout>
 
     <TextView

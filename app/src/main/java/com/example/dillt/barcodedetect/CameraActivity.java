@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
@@ -35,33 +36,31 @@ import java.io.File;
 
 public class CameraActivity extends Activity {
     Button cameraButton;
-    ImageView cameraImage;
+    ImageView myImageView;
+    TextView txtView;
     static final int CAM_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-
+        txtView = (TextView) findViewById(R.id.txtContent);
         cameraButton = (Button) findViewById(R.id.button_cam);
-        cameraImage = (ImageView) findViewById(R.id.capturedimage);
+        myImageView = (ImageView) findViewById(R.id.imgview);
+
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 File file = getFile();
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(camera_intent, CAM_REQUEST);
-            }
+                startActivityForResult(camera_intent, CAM_REQUEST);} // this calls onActivityResult() method
         });
 
-        TextView txtView = (TextView) findViewById(R.id.txtContent);//our textView is named txtView
-
-        ImageView myImageView = (ImageView) findViewById(R.id.imgview); // image of included barcode
-        Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(),
-                R.drawable.ean13);
-        myImageView.setImageBitmap(myBitmap); // puts the image of the barcode on the screen
-
+        /*Bitmap myBitmap = BitmapFactory.decodeFile("sdcard/barcode/image.jpg");
+        //myImageView.setImageBitmap(BitmapFactory.decodeFile("sdcard/barcode/image.jpg"));
+        //Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ean13);
+        myImageView.setImageBitmap(myBitmap);
         BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build();
         if (!detector.isOperational()) {
             txtView.setText("Could not set up the detector!"); // display warning in txtView
@@ -70,32 +69,39 @@ public class CameraActivity extends Activity {
 
         Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
         SparseArray<Barcode> barcodes = detector.detect(frame);
-        //Log.w("-----------",barcodes.valueAt(0).toString());
-        //System.out.print(barcodes.valueAt(0));
-
-        if (!barcodes.equals("{}")) { // this will be able to differentiate between valid barcodes and non-barcodes in the future
             Barcode thisCode = barcodes.valueAt(0);
-            txtView.setText(thisCode.rawValue); // display info from barcode in txtView
-        }
-        else{
-            txtView.setText("Barcode could not be read");
-        }
-        // place image that was taken into the image view to replace the other image
-        //myImageView.setImage???
-    }
+            txtView.setText(thisCode.rawValue); // display info from barcode in txtView*/
+
+    } // END OF ONCREATE()
+
     private File getFile(){
-        File folder = new File("sdcard/barcode_detect");
+        File folder = new File("sdcard/barcode");
         if (!folder.exists()) {
             folder.mkdir();
         }
-        File image_file = new File(folder, "cam_image.jpg");
-        return image_file;
+        return new File(folder, "image.jpg");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        String path = "sdcard/barcode_detect/cam_image.jpg";
-        cameraImage.setImageDrawable(Drawable.createFromPath(path));
+        String path = "sdcard/barcode/image.jpg";
+        myImageView.setImageDrawable(Drawable.createFromPath(path)); // here the image should be drawn to the screen
+    }
+
+    public void detect(View detectView) {
+        Bitmap myBitmap = BitmapFactory.decodeFile("sdcard/barcode/image.jpg");
+        //myImageView.setImageBitmap(BitmapFactory.decodeFile("sdcard/barcode/image.jpg"));
+        //Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ean13);
+        myImageView.setImageBitmap(myBitmap);
+        BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build();
+        if (!detector.isOperational()) {
+            txtView.setText("Could not set up the detector!"); // display warning in txtView
+            return;
+        }
+        Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
+        SparseArray<Barcode> barcodes = detector.detect(frame);
+            Barcode thisCode = barcodes.valueAt(0);
+            txtView.setText(thisCode.rawValue); // display info from barcode in txtView
     }
 
     public void barCodeRequest(View view) {
