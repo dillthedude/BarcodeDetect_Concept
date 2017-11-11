@@ -2,6 +2,7 @@ package com.example.dillt.barcodedetect;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -25,6 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -122,26 +124,38 @@ public class CameraActivity extends Activity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
 // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        /*StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
-                        mTextView.setText("Response is: "+ response.substring(0,500));
+                        //mTextView.setText("Response is: "+ response.substring(0,500));
+                        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+                        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                        Gson gson = new Gson();
+                        prefsEditor.putString("Item", response);
+                        prefsEditor.commit();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mTextView.setText("That didn't work!");
             }
-        });
+        });*/
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        mTxtDisplay.setText("Response: " + response.toString());
+                        //mTxtDisplay.setText("Response: " + response.toString()); //Testing display
+
                         //RESPONSE is JSON, turn into ITEM
+                        // Shared Prefernces Save test
+                        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+                        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                        Gson gson = new Gson();
+                        prefsEditor.putString("Item", response.toString());
+                        prefsEditor.commit();
                     }
                 }, new Response.ErrorListener() {
 
@@ -154,5 +168,12 @@ public class CameraActivity extends Activity {
 // Add the request to the RequestQueue.
         //queue.add(stringRequest);
         queue.add(jsObjRequest);
+
+        //Shared Prefernce Loading Test Works
+        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("Item", "");
+        Item i = gson.fromJson(json, Item.class);
+        mTextView.setText(json);
     }
 }

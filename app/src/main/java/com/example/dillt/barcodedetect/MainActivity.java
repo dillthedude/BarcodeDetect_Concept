@@ -2,6 +2,7 @@ package com.example.dillt.barcodedetect;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -26,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -34,6 +36,7 @@ import java.io.File;
 public class MainActivity extends Activity {
 
     FloatingActionButton btn_toCamera;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
