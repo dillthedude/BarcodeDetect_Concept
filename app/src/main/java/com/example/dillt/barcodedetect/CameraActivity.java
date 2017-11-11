@@ -40,6 +40,7 @@ public class CameraActivity extends Activity {
     Button cameraButton;
     ImageView myImageView;
     TextView txtView;
+    String cameraCode;
     static final int CAM_REQUEST = 1;
 
     @Override
@@ -105,11 +106,13 @@ public class CameraActivity extends Activity {
         SparseArray<Barcode> barcodes = detector.detect(frame);
             Barcode thisCode = barcodes.valueAt(0);
             txtView.setText(thisCode.rawValue); // display info from barcode in txtView
+        cameraCode = thisCode.rawValue;
+
     }
 
     public void barCodeRequest(View view) {
         // https://api.upcdatabase.org/search/{id}/{api_key}
-        String cameraCode = "035000521019"; // for testing
+        //String cameraCode = "035000521019"; // for testing
         String OA = "kpf97zybaryzuhzjn7y7jx7s";
         String url;// = ""http://api.walmartlabs.com/v1/items?apiKey=" + OA + "&upc=" + cameraCode;
         url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //Testing
