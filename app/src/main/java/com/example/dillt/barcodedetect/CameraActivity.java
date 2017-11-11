@@ -50,7 +50,6 @@ public class CameraActivity extends Activity {
         txtView = (TextView) findViewById(R.id.txtContent);
         cameraButton = (Button) findViewById(R.id.button_cam);
         myImageView = (ImageView) findViewById(R.id.imgview);
-
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,22 +58,6 @@ public class CameraActivity extends Activity {
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
                 startActivityForResult(camera_intent, CAM_REQUEST);} // this calls onActivityResult() method
         });
-
-        /*Bitmap myBitmap = BitmapFactory.decodeFile("sdcard/barcode/image.jpg");
-        //myImageView.setImageBitmap(BitmapFactory.decodeFile("sdcard/barcode/image.jpg"));
-        //Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ean13);
-        myImageView.setImageBitmap(myBitmap);
-        BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build();
-        if (!detector.isOperational()) {
-            txtView.setText("Could not set up the detector!"); // display warning in txtView
-            return;
-        }
-
-        Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
-        SparseArray<Barcode> barcodes = detector.detect(frame);
-            Barcode thisCode = barcodes.valueAt(0);
-            txtView.setText(thisCode.rawValue); // display info from barcode in txtView*/
-
     } // END OF ONCREATE()
 
     private File getFile(){
@@ -107,7 +90,6 @@ public class CameraActivity extends Activity {
             Barcode thisCode = barcodes.valueAt(0);
             txtView.setText(thisCode.rawValue); // display info from barcode in txtView
         cameraCode = thisCode.rawValue;
-
     }
 
     public void barCodeRequest(View view) {

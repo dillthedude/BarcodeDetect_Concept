@@ -20,7 +20,7 @@
         tools:ignore="MissingConstraints"
         android:id="@+id/linearLayout">
 
-        <TextView android:text=""
+        <TextView android:text="(1)Capture Image (2)Detect Barcode (3)URLTEST X 2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/txtContent"
