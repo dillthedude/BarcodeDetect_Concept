@@ -36,12 +36,12 @@ import java.io.File;
 public class MainActivity extends Activity {
 
     FloatingActionButton btn_toCamera;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
-
     }
     public void openCamera(View view) {
         Log.d("Clicked on camera", "entered the function.");
