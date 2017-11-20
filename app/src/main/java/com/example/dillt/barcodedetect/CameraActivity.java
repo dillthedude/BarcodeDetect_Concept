@@ -31,6 +31,8 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.sql.Wrapper;
+import java.util.List;
 
 /**
  * Created by cwetzker on 11/8/2017.
@@ -92,6 +94,15 @@ public class CameraActivity extends Activity {
         cameraCode = thisCode.rawValue;
     }
 
+    /**
+     * @author Trent Gillson
+     * @param view
+     * This class utilizes the Google Volley class to instantiate a HTTP request connection
+     * to a Walmart API database. We provide the UPC code provided from @Link cameraCode
+     * to search for a specific item and return a JSON object. We then Parse the JSON Object
+     * into an item class.
+     *
+     */
     public void barCodeRequest(View view) {
         // https://api.upcdatabase.org/search/{id}/{api_key}
         //String cameraCode = "035000521019"; // for testing
@@ -132,6 +143,7 @@ public class CameraActivity extends Activity {
 
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.i("Connection", "Successful Conect");
                         //mTxtDisplay.setText("Response: " + response.toString()); //Testing display
 
                         //RESPONSE is JSON, turn into ITEM
@@ -139,14 +151,17 @@ public class CameraActivity extends Activity {
                         SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
                         SharedPreferences.Editor prefsEditor = mPrefs.edit();
                         Gson gson = new Gson();
-                        prefsEditor.putString("Item", response.toString());
-                        prefsEditor.commit();
+                        Item i = gson.fromJson(response.toString(), Item.class ); //BROKEN!!!!
+                        String test = i.getName() + i.getUpc().toString() + i.getBrand() + i.getShortDescription();
+                        mTextView.setText(test);
+                        //prefsEditor.putString("Items", test); //Fix
+                        //prefsEditor.commit();
                     }
                 }, new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // TODO Auto-generated method stub
+                        Log.i("Connection", "Error Connecting");
 
                     }
                 });
@@ -155,10 +170,10 @@ public class CameraActivity extends Activity {
         queue.add(jsObjRequest);
 
         //Shared Prefernce Loading Test Works
-        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = mPrefs.getString("Item", "");
-        Item i = gson.fromJson(json, Item.class);
-        mTextView.setText(json);
+        //SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        //Gson gson = new Gson();
+        //String json = mPrefs.getString("Items", "");
+        //Item i = gson.fromJson(json, Item.class);
+        //mTextView.setText(json);
     }
 }
