@@ -35,6 +35,7 @@ import java.sql.Wrapper;
 import java.util.List;
 
 /**
+ * This CameraActivity class allows the user to add items to the Item List.
  * Created by cwetzker on 11/8/2017.
  */
 
@@ -62,6 +63,10 @@ public class CameraActivity extends Activity {
         });
     } // END OF ONCREATE()
 
+    /**
+     * Create folder if not yet created. Return file for camera to save with.
+     * @return new File
+     */
     private File getFile(){
         File folder = new File("sdcard/barcode");
         if (!folder.exists()) {
@@ -70,12 +75,22 @@ public class CameraActivity extends Activity {
         return new File(folder, "image.jpg");
     }
 
+    /**
+     * Necessary for camera activity.
+     * @param requestCode IDK
+     * @param resultCode IDK
+     * @param data IDK
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         String path = "sdcard/barcode/image.jpg";
         myImageView.setImageDrawable(Drawable.createFromPath(path)); // here the image should be drawn to the screen
     }
 
+    /**
+     * Put photograph on ImageView. Set up detector. Send barcode image and get back barcode number.
+     * @param detectView IDK
+     */
     public void detect(View detectView) {
         Bitmap myBitmap = BitmapFactory.decodeFile("sdcard/barcode/image.jpg");
         //myImageView.setImageBitmap(BitmapFactory.decodeFile("sdcard/barcode/image.jpg"));
