@@ -13,8 +13,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -34,7 +36,8 @@ import org.json.JSONObject;
 import java.io.File;
 
 public class MainActivity extends Activity {
-
+    String[] items;
+    ListView myListView;
     FloatingActionButton btn_toCamera;
 
     @Override
@@ -42,6 +45,9 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
+        myListView = (ListView) findViewById(R.id.lv_itemList);
+        items = new String[] {"Milk", "Bread", "Cheese", "Mt. Dew", "Pasta"};
+        //myListView = new ListView(this, items);
     }
     public void openCamera(View view) {
         Log.d("Clicked on camera", "entered the function.");
