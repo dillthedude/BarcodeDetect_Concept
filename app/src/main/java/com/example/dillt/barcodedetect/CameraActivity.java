@@ -1,6 +1,7 @@
 package com.example.dillt.barcodedetect;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.JsonReader;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -19,7 +21,9 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -27,12 +31,24 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonStreamParser;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.sql.Wrapper;
-import java.util.List;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 /**
  * This CameraActivity class allows the user to add items to the Item List.
@@ -122,8 +138,8 @@ public class CameraActivity extends Activity {
         // https://api.upcdatabase.org/search/{id}/{api_key}
         //String cameraCode = "035000521019"; // for testing
         String OA = "kpf97zybaryzuhzjn7y7jx7s";
-        String url;// = ""http://api.walmartlabs.com/v1/items?apiKey=" + OA + "&upc=" + cameraCode;
-        url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //Testing
+        String url;// = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
+        url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
 
         final TextView mTxtDisplay;
         ImageView mImageView;
@@ -135,7 +151,7 @@ public class CameraActivity extends Activity {
         RequestQueue queue = Volley.newRequestQueue(this);
 
 // Request a string response from the provided URL.
-        /*StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+       /* StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -144,8 +160,16 @@ public class CameraActivity extends Activity {
                         SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
                         SharedPreferences.Editor prefsEditor = mPrefs.edit();
                         Gson gson = new Gson();
-                        prefsEditor.putString("Item", response);
-                        prefsEditor.commit();
+                        try {
+                            JSONArray arry = new JSONArray(response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        String obj = gson.toJson(response);
+                        Item i = gson.fromJson(obj, Item.class);
+                        //prefsEditor.putString("Item", response);
+                        //prefsEditor.commit();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -154,20 +178,27 @@ public class CameraActivity extends Activity {
             }
         });*/
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, url, null, new Listener<JSONObject>() {
+
 
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.i("Connection", "Successful Conect");
-                        //mTxtDisplay.setText("Response: " + response.toString()); //Testing display
 
-                        //RESPONSE is JSON, turn into ITEM
-                        // Shared Prefernces Save test
                         SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
                         SharedPreferences.Editor prefsEditor = mPrefs.edit();
+
+                        JSONObject obj = null;
+                        try {
+                            obj = response.getJSONArray("items").getJSONObject(0);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         Gson gson = new Gson();
-                        Item i = gson.fromJson(response.toString(), Item.class ); //BROKEN!!!!
-                        String test = i.getName() + i.getUpc().toString() + i.getBrand() + i.getShortDescription();
+                        Item i = gson.fromJson(obj.toString(), Item.class);
+
+                        String test = i.getName() + i.getUpc() + i.getBrandName() + i.getShortDescription();
                         mTextView.setText(test);
                         //prefsEditor.putString("Items", test); //Fix
                         //prefsEditor.commit();
@@ -180,10 +211,10 @@ public class CameraActivity extends Activity {
 
                     }
                 });
-// Add the request to the RequestQueue.
-        //queue.add(stringRequest);
-        queue.add(jsObjRequest);
 
+
+// Add the request to the RequestQueue.
+        queue.add(jsObjRequest);
         //Shared Prefernce Loading Test Works
         //SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
         //Gson gson = new Gson();
