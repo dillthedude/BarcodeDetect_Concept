@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -34,6 +36,7 @@ import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.reflect.Method;
 
 public class MainActivity extends Activity {
     String[] categories;
@@ -50,6 +53,15 @@ public class MainActivity extends Activity {
         myListView = (ListView) findViewById(R.id.lv_itemList);
         categories = new String[] {"Milk", "Bread", "Cheese", "Mt. Dew", "Pasta"};
         //myListView = new ListView(this, items);
+
+        if(Build.VERSION.SDK_INT>=24){
+            try{
+                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+                m.invoke(null);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
     }
     public void openCamera(View view) {
         Log.d(TAG, "entered the function.");
