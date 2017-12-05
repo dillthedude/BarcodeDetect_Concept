@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.dillt.barcodedetect.MainActivity"
+    tools:context="com.example.dillt.barcodedetect.subGroupActivity"
     android:orientation="vertical"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/lv_itemList"
+        android:id="@+id/lv_items"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
@@ -25,7 +25,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_toCamera"
+        android:id="@+id/fab_toCamera2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -33,11 +33,10 @@
         android:clickable="true"
         android:onClick="openCamera"
         android:tint="@android:color/holo_green_light"
+        app:backgroundTint="@android:color/white"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add"
-        app:backgroundTint="@android:color/white"/>
-
+        app:srcCompat="@android:drawable/ic_input_add" />
 
 </android.support.constraint.ConstraintLayout>

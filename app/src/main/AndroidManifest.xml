@@ -22,6 +22,7 @@
         <activity android:name=".CameraActivity"
             android:parentActivityName=".MainActivity" >
         </activity>
+        <activity android:name=".subGroupActivity" />
     </application>
 
 </manifest>

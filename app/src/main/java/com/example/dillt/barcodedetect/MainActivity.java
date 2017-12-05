@@ -36,27 +36,29 @@ import org.json.JSONObject;
 import java.io.File;
 
 public class MainActivity extends Activity {
-    String[] items;
+    String[] categories;
     ListView myListView;
     FloatingActionButton btn_toCamera;
+    static final String TAG = "Main Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        items = new String[] {"Milk", "Bread", "Cheese", "Mt. Dew", "Pasta"};
+        categories = new String[] {"Milk", "Bread", "Cheese", "Mt. Dew", "Pasta"};
         //myListView = new ListView(this, items);
     }
     public void openCamera(View view) {
-        Log.d("Clicked on camera", "entered the function.");
+        Log.d(TAG, "entered the function.");
         Intent intent = new Intent(this, CameraActivity.class);
         String message = "This is written in Main, but opened in Camera!";
         intent.putExtra("Extra message", message);
-        Log.d("Created the intent", "now to start the Activity");
+        Log.d(TAG, "now to start the Activity");
         startActivity(intent);
-        Log.d("Does this code execute?", "if so, Hello!");
+        Log.d(TAG, "if so, Hello!");
 
     }
 }
