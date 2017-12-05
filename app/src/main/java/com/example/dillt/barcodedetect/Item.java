@@ -47,4 +47,7 @@ public class Item {
     public void refresh() {}
 
 
+    public String getGroup() {
+        return null;
+    }
 }
