@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
     String[] items;
     ListView myListView;
     FloatingActionButton btn_toCamera;
-    static final String TAG = "Main activity";
+    static final String TAG = "Main Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

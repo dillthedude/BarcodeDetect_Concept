@@ -1,16 +1,19 @@
 package com.example.dillt.barcodedetect;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by cwetzker on 11/1/2017.
  */
 
-public class Item {
+public class Item implements Comparable<Item> {
     public String name;
     public String upc;
     public int quantity;
     public String shortDescription;
     public String brandName;
     public String mediumImage;
+    public String group;
 
     public Item(String _name) {
         name = _name;
@@ -44,7 +47,15 @@ public class Item {
         return shortDescription;
     }
 
+    public String getGroup() {return group;}
+    public void setGroup(String group) {this.group = group;}
+
     public void refresh() {}
 
 
+    @Override
+    public int compareTo(@NonNull Item o) {
+        //TODO add compare
+        return 0;
+    }
 }

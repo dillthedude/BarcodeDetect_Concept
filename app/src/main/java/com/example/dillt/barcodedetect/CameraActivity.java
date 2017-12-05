@@ -1,7 +1,7 @@
 package com.example.dillt.barcodedetect;
 
 import android.app.Activity;
-import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -135,48 +135,16 @@ public class CameraActivity extends Activity {
      *
      */
     public void barCodeRequest(View view) {
-        // https://api.upcdatabase.org/search/{id}/{api_key}
-        //String cameraCode = "035000521019"; // for testing
-        String OA = "kpf97zybaryzuhzjn7y7jx7s";
+        // General API URL code:  https://api.upcdatabase.org/search/{id}/{api_key}
+        String OA = "kpf97zybaryzuhzjn7y7jx7s"; //API key
         String url;// = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
         url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
-
-        //final TextView mTxtDisplay;
-        //ImageView mImageView;
-        //mTxtDisplay = (TextView) findViewById(R.id.textView);
-
-
+        // View for Testing
         final TextView mTextView = (TextView) findViewById(R.id.textView);
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        // Request a string response from the provided URL.
-        /* StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        //mTextView.setText("Response is: "+ response.substring(0,500));
-                        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-                        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-                        Gson gson = new Gson();
-                        try {
-                            JSONArray arry = new JSONArray(response);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        String obj = gson.toJson(response);
-                        Item i = gson.fromJson(obj, Item.class);
-                        //prefsEditor.putString("Item", response);
-                        //prefsEditor.commit();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mTextView.setText("That didn't work!");
-            }
-        });*/
+        // Request a JSON response from the provided URL.
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Listener<JSONObject>() {
 
@@ -185,9 +153,9 @@ public class CameraActivity extends Activity {
                     public void onResponse(JSONObject response) {
                         Log.i("Connection", "Successful Conect");
 
-                        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-                        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-                        prefsEditor.apply(); //must call commit() or apply() to save changes from edit()
+                        //SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+                        //SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                        //prefsEditor.apply(); //must call commit() or apply() to save changes from edit()
 
                         JSONObject obj = null;
                         try {
@@ -197,13 +165,14 @@ public class CameraActivity extends Activity {
                         }
 
                         Gson gson = new Gson();
-                        assert obj != null;
-                        Item i = gson.fromJson(obj.toString(), Item.class);
+                        Item i = gson.fromJson(obj.toString(), Item.class); //Casting into item
+                        i.setQuantity(1);
+                        i.setGroup("Unsorted");
 
                         String test = i.getName() + i.getUpc() + i.getBrandName() + i.getShortDescription();
                         mTextView.setText(test);
-                        //prefsEditor.putString("Items", test); //Fix
-                        //prefsEditor.commit();
+
+                        ItemList.addItem(i);
                     }
                 }, new Response.ErrorListener() {
 
@@ -217,11 +186,6 @@ public class CameraActivity extends Activity {
 
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
-        //Shared Prefernce Loading Test Works
-        //SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-        //Gson gson = new Gson();
-        //String json = mPrefs.getString("Items", "");
-        //Item i = gson.fromJson(json, Item.class);
-        //mTextView.setText(json);
+        ItemList.saveItems(this);
     }
 }
