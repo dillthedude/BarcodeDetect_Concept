@@ -37,8 +37,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
+    ArrayAdapter<String> categoryAdapter;
     String[] categories;
     ListView myListView;
     FloatingActionButton btn_toCamera;
@@ -48,11 +50,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        categories = new String[] {"Milk", "Bread", "Cheese", "Mt. Dew", "Pasta"};
-        //myListView = new ListView(this, items);
+        categories = new String[] {"Groceries", "Kitchen", "Auto", "Toys/Games", "Non-categorised"};
+        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categories);
+        myListView.setAdapter(categoryAdapter);
 
         if(Build.VERSION.SDK_INT>=24){
             try{
