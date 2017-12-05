@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        categories = new String[] {"Groceries", "Kitchen", "Auto", "Toys/Games", "Non-categorised"};
+        categories = new String[] {"Groceries", "Kitchen", "Auto", "Toys/Games", "Unsorted"};
         categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categories);
         myListView.setAdapter(categoryAdapter);
 

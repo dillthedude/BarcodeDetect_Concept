@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
@@ -16,7 +17,7 @@ import android.widget.ListView;
  */
 
 public class subGroupActivity extends Activity {
-
+    ArrayAdapter<String> adapter;
     String[] items;
     ListView listOfItems;
     FloatingActionButton to_camera;
@@ -29,6 +30,8 @@ public class subGroupActivity extends Activity {
         to_camera = (FloatingActionButton) findViewById(R.id.fab_toCamera2);
         listOfItems = (ListView) findViewById(R.id.lv_items);
         items = new String[] {"apple, sunscreen, chair, frozen chicken, shampoo, razor"};
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        listOfItems.setAdapter(adapter);
     }
 
     public void openCamera(View view) {
