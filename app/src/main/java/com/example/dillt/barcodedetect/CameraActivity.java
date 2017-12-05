@@ -114,7 +114,7 @@ public class CameraActivity extends Activity {
         myImageView.setImageBitmap(myBitmap);
         BarcodeDetector detector = new BarcodeDetector.Builder(getApplicationContext()).setBarcodeFormats(Barcode.ALL_FORMATS).build();
         if (!detector.isOperational()) {
-            txtView.setText("Could not set up the detector!"); // display warning in txtView
+            txtView.setText(R.string.cannot_setup_detector); // display warning in txtView
             return;
         }
 
@@ -141,17 +141,17 @@ public class CameraActivity extends Activity {
         String url;// = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
         url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
 
-        final TextView mTxtDisplay;
-        ImageView mImageView;
-        mTxtDisplay = (TextView) findViewById(R.id.textView);
+        //final TextView mTxtDisplay;
+        //ImageView mImageView;
+        //mTxtDisplay = (TextView) findViewById(R.id.textView);
 
 
         final TextView mTextView = (TextView) findViewById(R.id.textView);
-// Instantiate the RequestQueue.
+        // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
 
-// Request a string response from the provided URL.
-       /* StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        // Request a string response from the provided URL.
+        /* StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -187,6 +187,7 @@ public class CameraActivity extends Activity {
 
                         SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
                         SharedPreferences.Editor prefsEditor = mPrefs.edit();
+                        prefsEditor.apply(); //must call commit() or apply() to save changes from edit()
 
                         JSONObject obj = null;
                         try {
@@ -196,6 +197,7 @@ public class CameraActivity extends Activity {
                         }
 
                         Gson gson = new Gson();
+                        assert obj != null;
                         Item i = gson.fromJson(obj.toString(), Item.class);
 
                         String test = i.getName() + i.getUpc() + i.getBrandName() + i.getShortDescription();
@@ -213,7 +215,7 @@ public class CameraActivity extends Activity {
                 });
 
 
-// Add the request to the RequestQueue.
+        // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
         //Shared Prefernce Loading Test Works
         //SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);

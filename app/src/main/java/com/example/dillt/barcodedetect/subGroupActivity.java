@@ -7,11 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -37,20 +37,24 @@ import org.json.JSONObject;
 
 import java.io.File;
 
-public class MainActivity extends Activity {
-    String[] items;
+/**
+ * Created by cwetzker on 12/4/2017.
+ */
+
+public class subGroupActivity extends Activity {
+
+    String[] items; //Should rewrite for real Item objects
     ListView myListView;
     FloatingActionButton btn_toCamera;
-    static final String TAG = "Main activity";
+    static final String TAG = "subGroup Activity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        setContentView(R.layout.activity_subgroup);
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
-        myListView = (ListView) findViewById(R.id.lv_itemList);
-        items = new String[] {"Food", "Cleaning", "Bedding", "Clothes", "Furniture"};
-        //myListView = new ListView(this, items);
+        myListView = (ListView) findViewById(R.id.lv_items);
+        items = new String[] {"Milk", "Bread", "Cheese", "Mt. Dew", "Pasta"};
     }
 
     public void openCamera(View view) {

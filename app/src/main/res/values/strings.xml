@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BarcodeDetect</string>
     <string name="btnProcess">Process</string>
+    <string name="cannot_setup_detector">Could not set up the detector!</string>
 </resources>
