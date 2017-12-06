@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -121,13 +122,12 @@ public class CameraActivity extends Activity {
     public void barCodeRequest(View view) {
         // General API URL code:  https://api.upcdatabase.org/search/{id}/{api_key}
         String OA = "kpf97zybaryzuhzjn7y7jx7s"; //API key
-        String url;// = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
-        url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
+        String url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
+        //url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
 // View for Testing
         final TextView mTextView = (TextView) findViewById(R.id.textView);
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-
 // Request a JSON response from the provided URL.
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Listener<JSONObject>() {
@@ -160,12 +160,19 @@ public class CameraActivity extends Activity {
                     public void onErrorResponse(VolleyError error) {
                         Log.i("Connection", "Error Connecting");
 
+
                     }
                 });
 
 
 // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
+    }
+
+    public void test(View view) {
         ItemList.saveItems(this);
+        ItemList.loadItems(this);
+
+
     }
 }

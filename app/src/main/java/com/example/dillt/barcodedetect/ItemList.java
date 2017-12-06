@@ -24,12 +24,17 @@ public class ItemList {
     public static ItemList getInstance() {
         return ourInstance;
     }
-//NEED To call Load at start
-    private ItemList() {
+
+    private ItemList() { items = new LinkedList<>();
     }
 
     public static void addItem(Item item) {
-        items.add(item);
+        if (!items.contains(item))
+            items.add(item);
+        else {
+            int i = items.indexOf(item);
+            items.get(i).quantity++;
+        }
     }
 
     public static void removeItem(Item item) {
@@ -37,15 +42,17 @@ public class ItemList {
     }
 
     public static Item getItem(String name) {
-        int i = items.indexOf(name);
-        return items.get(i);
+        for (int i = 0; i < items.size(); i++)
+            if (items.get(i).getName().equals(name))
+                return items.get(i);
+        return null;
     }
 
     public static List getGroupList(String name) {
 
         List group = new LinkedList<Item>();
         for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getGroup() == name)
+            if (items.get(i).getGroup().equals(name))
                 group.add(items.get(i));
         }
         // Should be an alphabetical sort. If app crashes at this function, comment out.
@@ -60,25 +67,31 @@ public class ItemList {
 
 
     public static void saveItems(Context context) {
-        //TODO sharad Pref update
         SharedPreferences save = context.getSharedPreferences("default_settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = save.edit();
 
         Gson gson = new Gson();
-        String json = gson.toJson(items, List.class);
+        int size = items.size();
 
-        editor.remove("savedItems");
-        editor.putString("savedItems", json);
-        editor.commit();
+        for (int i = 0; i < size; i++) {
+            String json = gson.toJson(items.get(i), Item.class);
+            editor.putString(String.valueOf(i), json);
+        }
+        editor.putInt("size", size);
 
+        editor.apply();
     }
 
     public static void loadItems(Context context) {
-        //TODO Load Shared
         SharedPreferences load = context.getSharedPreferences("default_settings", Context.MODE_PRIVATE);
-        String json = load.getString("savedItems", null);
-
+        int size = 0;
+        size = load.getInt("size",0);
         Gson gson = new Gson();
-        items = gson.fromJson(json, List.class);
+        items.clear();
+        for (int i = 0; i < size; i++) {
+            String json = load.getString(String.valueOf(i), null);
+            Item n = gson.fromJson(json, Item.class);
+            items.add(n);
+        }
     }
 }

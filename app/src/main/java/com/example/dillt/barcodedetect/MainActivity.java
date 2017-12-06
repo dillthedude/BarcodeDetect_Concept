@@ -64,6 +64,12 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
             }
         }
+        ItemList.loadItems(this);
+    }
+
+    protected void onPause(){
+        super.onPause();
+        ItemList.saveItems(this);
     }
     public void openCamera(View view) {
         Log.d(TAG, "entered the function.");
