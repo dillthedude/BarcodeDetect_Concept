@@ -69,7 +69,7 @@
         android:id="@+id/pt_itemGroup"
         android:layout_width="226dp"
         android:layout_height="60dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="48dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="@string/group_name"
@@ -81,11 +81,10 @@
         android:id="@+id/b_gotoSite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/item_webpage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tb_editFields" />
 
     <TextView
         android:id="@+id/tv_editTitle"

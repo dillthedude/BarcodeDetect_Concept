@@ -4,7 +4,7 @@
     <string name="item_name">Name</string>
     <string name="item_description">Description</string>
     <string name="item_quantity">Quantity</string>
-      <string name="item_edit_toggle">Edit</string>
+    <string name="item_edit_toggle">Edit</string>
     <string name="group_name">Group Name</string>
     <string name="item_webpage">WebPage</string>
     <string name="item_view_edit">Edit</string>

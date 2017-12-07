@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -67,6 +68,8 @@ public class MainActivity extends Activity {
         }
         ItemList.loadItems(this);
         categoryAdapter.notifyDataSetChanged();
+
+
     }
 
     protected void onPause(){
@@ -74,14 +77,15 @@ public class MainActivity extends Activity {
         ItemList.saveItems(this);
         categoryAdapter.notifyDataSetChanged();
     }
+
     public void openCamera(View view) {
-        Log.d(TAG, "entered the function.");
+        Log.d(TAG, "entered openCamera() function.");
         Intent intent = new Intent(this, CameraActivity.class);
         String message = "This is written in Main, but opened in Camera!";
         intent.putExtra("Extra message", message);
-        Log.d(TAG, "now to start the Activity");
+        Log.d(TAG, "now to start the CameraActivity");
         startActivity(intent);
-        Log.d(TAG, "if so, Hello!");
-
     }
+
+
 }
