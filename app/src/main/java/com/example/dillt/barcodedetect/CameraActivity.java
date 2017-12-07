@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,6 +37,7 @@ import org.json.JSONObject;
 
 import java.io.File;
 
+
 /**
  * This CameraActivity class allows the user to add items to the Item List.
  * Created by cwetzker on 11/8/2017.
@@ -47,10 +50,16 @@ public class CameraActivity extends Activity {
     String cameraCode;
     static final int CAM_REQUEST = 1;
 
+    static final String TAG = "Camera Activity";
+    static final String EXTRA_MESSAGE = "com.example.dillt.barcodedetect.EXTRA_MESSAGE";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         txtView = (TextView) findViewById(R.id.txtContent);
         cameraButton = (Button) findViewById(R.id.button_cam);
         myImageView = (ImageView) findViewById(R.id.imgview);
@@ -69,10 +78,12 @@ public class CameraActivity extends Activity {
      * @return new File
      */
     private File getFile(){
+        Log.i(TAG, "entered getFile()");
         File folder = new File("sdcard/barcode");
         if (!folder.exists()) {
             folder.mkdir();
         }
+        Log.i(TAG, "returning new File");
         return new File(folder, "image.jpg");
     }
 
@@ -93,6 +104,10 @@ public class CameraActivity extends Activity {
      * @param detectView IDK
      */
     public void detect(View detectView) {
+        Log.i(TAG, "Entering detect(), this should put the image on the screen");
+
+        //Need to programically ask permission to read the file
+
         Bitmap myBitmap = BitmapFactory.decodeFile("sdcard/barcode/image.jpg");
         //myImageView.setImageBitmap(BitmapFactory.decodeFile("sdcard/barcode/image.jpg"));
         //Bitmap myBitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.ean13);
@@ -103,11 +118,13 @@ public class CameraActivity extends Activity {
             return;
         }
 
+        Log.i(TAG, "Bar code dectector is set up to read the code");
         Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
         SparseArray<Barcode> barcodes = detector.detect(frame);
             Barcode thisCode = barcodes.valueAt(0);
             txtView.setText(thisCode.rawValue); // display info from barcode in txtView
         cameraCode = thisCode.rawValue;
+        Log.i(TAG, "Leaving detect(), should see image, should have barcode");
     }
 
     /**
@@ -154,6 +171,8 @@ public class CameraActivity extends Activity {
 
                         ItemList.addItem(i); // ***THIS SEEMS TO REFERENCE A NULL POINTER***
 
+                        passToItemView(i.getName());
+
                     }
                 }, new Response.ErrorListener() {
 
@@ -175,5 +194,12 @@ public class CameraActivity extends Activity {
         ItemList.loadItems(this);
 
 
+    }
+
+    // Pass Item to ItemViewActivity to edit Item
+    void passToItemView(String name) {
+        Intent itemIntent = new Intent(CameraActivity.this, ItemViewActivity.class);
+        itemIntent.putExtra(EXTRA_MESSAGE, name);
+        startActivity(itemIntent);
     }
 }

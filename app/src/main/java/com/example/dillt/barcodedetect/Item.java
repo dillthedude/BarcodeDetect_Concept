@@ -22,10 +22,12 @@ public class Item /*implements Comparable<Item>*/ {
     public Item(String _name) {
         name = _name;
         upc = "";
+        group = "Food";
     }
     public Item(String name, String upc) {
         this.name = name;
         this.upc = upc;
+        group = "Food";
     }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

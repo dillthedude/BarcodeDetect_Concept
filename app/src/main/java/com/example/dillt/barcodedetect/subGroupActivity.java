@@ -29,7 +29,6 @@ public class subGroupActivity extends Activity {
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.activity_subgroup);
-        nameOfGroup = "Food"; // <------ we will need to change this depending on the intent that accesses this activity
 
         Intent intent = getIntent(); //Create Intent and extract info from the intent that brought us here
         nameOfGroup = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
