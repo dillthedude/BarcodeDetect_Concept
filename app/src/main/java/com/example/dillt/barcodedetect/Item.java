@@ -66,11 +66,9 @@ public class Item /*implements Comparable<Item>*/ {
     public boolean isClearance() {return clearance;}
     public void setClearance(boolean clearance) {this.clearance = clearance;}
 
+    @Override
+    public String toString() {
+        return getName();
+    }
     public void refresh() {}
-
-
-    /*@Override
-    public int compareTo(@NonNull Item o) {
-        return 0;
-    }*/
 }

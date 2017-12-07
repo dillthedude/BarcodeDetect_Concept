@@ -73,6 +73,7 @@ public class ItemList {
         Gson gson = new Gson();
         int size = items.size();
 
+        editor.clear();
         for (int i = 0; i < size; i++) {
             String json = gson.toJson(items.get(i), Item.class);
             editor.putString(String.valueOf(i), json);
@@ -93,5 +94,10 @@ public class ItemList {
             Item n = gson.fromJson(json, Item.class);
             items.add(n);
         }
+    }
+
+    public static void clearSharedPref(Context context) {
+        SharedPreferences load = context.getSharedPreferences("default_settings", Context.MODE_PRIVATE);
+        load.edit().clear();
     }
 }
