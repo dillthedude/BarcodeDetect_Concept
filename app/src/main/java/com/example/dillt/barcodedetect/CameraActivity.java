@@ -152,7 +152,8 @@ public class CameraActivity extends Activity {
                         String test = i.getName() + i.getUpc() + i.getBrandName() + i.getShortDescription();
                         mTextView.setText(test);
 
-                        ItemList.addItem(i);
+                        ItemList.addItem(i); // ***THIS SEEMS TO REFERENCE A NULL POINTER***
+
                     }
                 }, new Response.ErrorListener() {
 
