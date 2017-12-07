@@ -7,13 +7,17 @@ import android.support.annotation.NonNull;
  */
 
 public class Item /*implements Comparable<Item>*/ {
-    public String name;
-    public String upc;
+    private String name;
+    private String upc;
     public int quantity;
-    public String shortDescription;
-    public String brandName;
-    public String mediumImage;
-    public String group;
+    private String shortDescription;
+    private String brandName;
+    private String mediumImage;
+    private String group;
+    private float msrp;
+    private float salePrice;
+    private String productUrl;
+    private boolean clearance;
 
     public Item(String _name) {
         name = _name;
@@ -49,6 +53,18 @@ public class Item /*implements Comparable<Item>*/ {
 
     public String getGroup() {return group;}
     public void setGroup(String group) {this.group = group;}
+
+    public float getMsrp() {return msrp;}
+    public void setMsrp(float msrp) {this.msrp = msrp;}
+
+    public float getSalePrice() {return salePrice;}
+    public void setSalePrice(float salePrice) {this.salePrice = salePrice;}
+
+    public String getProductUrl() {return productUrl;}
+    public void setProductUrl(String productUrl) {this.productUrl = productUrl;}
+
+    public boolean isClearance() {return clearance;}
+    public void setClearance(boolean clearance) {this.clearance = clearance;}
 
     public void refresh() {}
 
