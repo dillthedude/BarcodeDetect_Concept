@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -39,11 +40,11 @@ import org.json.JSONObject;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends Activity {
-    ArrayAdapter<Item> categoryAdapter;
-    //String[] categories;
     ListView myListView;
+    ArrayAdapter<String> categoryAdapter;   // <----------
     FloatingActionButton btn_toCamera;
     static final String TAG = "Main Activity";
 
@@ -51,11 +52,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ItemList.loadItems(this); // Apparently this is important to do
+        ItemList.loadItems(this); // Apparently this is important to do (maybe? ask trent)
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        //categories = new String[] {"Groceries", "Kitchen", "Auto", "Toys/Games", "Unsorted"};
-        categoryAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, ItemList.items);
+        String[] groups = {"Home", "Food", "Bathroom", "Incidentals"};
+        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, groups);
         myListView.setAdapter(categoryAdapter);
 
         if(Build.VERSION.SDK_INT>=24){

@@ -11,16 +11,18 @@ import java.util.LinkedList;
 public class Group {
     LinkedList<Item> allItems;
     String _name;
+    int namelessGroupNumber = 1;
 
     public Group() {
-        _name = "";
+        _name = ("Nameless_Group_" + namelessGroupNumber);
+        namelessGroupNumber++;
     }
     public Group(String name) {
         _name = name;
     }
     public Group(Item item) {
         allItems.add(item);
-        _name = "";
+        _name = ("Nameless_Group_" + namelessGroupNumber);
     }
 
     public String getName() {return _name;}

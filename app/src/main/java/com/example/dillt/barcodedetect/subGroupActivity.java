@@ -18,10 +18,10 @@ import android.widget.ListView;
  */
 
 public class subGroupActivity extends Activity {
-    ArrayAdapter<String> adapter;
-    String[] items;
+    ArrayAdapter<Item> adapter;
     ListView listOfItems;
     FloatingActionButton to_camera;
+    String nameOfGroup;
 
     public static final String EXTRA_MESSAGE = "com.exampe.dillt.Message";
 
@@ -29,13 +29,13 @@ public class subGroupActivity extends Activity {
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.activity_subgroup);
+        nameOfGroup = "Food"; // <------ we will need to change this depending on the intent that accesses this activity
 
         Intent intent = getIntent(); //Create Intent and extract info from the intent that brought us here
 
         to_camera = (FloatingActionButton) findViewById(R.id.fab_toCamera2);
         listOfItems = (ListView) findViewById(R.id.lv_items);
-        items = new String[] {"apple, sunscreen, chair, frozen chicken, shampoo, razor"};
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items); // <Item> // ItemList.Item
+        adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, ItemList.getGroupList(nameOfGroup));
         listOfItems.setAdapter(adapter);
 
         listOfItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,5 +54,4 @@ public class subGroupActivity extends Activity {
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
     }
-
 }

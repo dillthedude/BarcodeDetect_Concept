@@ -160,7 +160,7 @@ public class CameraActivity extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.i("Connection", "Error Connecting");
-
+                        Log.i("hi",error.toString());
 
                     }
                 });
