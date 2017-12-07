@@ -40,8 +40,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-    ArrayAdapter<String> categoryAdapter;
-    String[] categories;
+    ArrayAdapter<Item> categoryAdapter;
+    //String[] categories;
     ListView myListView;
     FloatingActionButton btn_toCamera;
     static final String TAG = "Main Activity";
@@ -50,10 +50,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ItemList.loadItems(this); // Apparently this is important to do
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        categories = new String[] {"Groceries", "Kitchen", "Auto", "Toys/Games", "Unsorted"};
-        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categories);
+        //categories = new String[] {"Groceries", "Kitchen", "Auto", "Toys/Games", "Unsorted"};
+        categoryAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, ItemList.items);
         myListView.setAdapter(categoryAdapter);
 
         if(Build.VERSION.SDK_INT>=24){
@@ -64,6 +65,14 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
             }
         }
+        ItemList.loadItems(this);
+        categoryAdapter.notifyDataSetChanged();
+    }
+
+    protected void onPause(){
+        super.onPause();
+        ItemList.saveItems(this);
+        categoryAdapter.notifyDataSetChanged();
     }
     public void openCamera(View view) {
         Log.d(TAG, "entered the function.");

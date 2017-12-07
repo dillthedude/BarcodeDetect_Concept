@@ -30,7 +30,7 @@ public class subGroupActivity extends Activity {
         to_camera = (FloatingActionButton) findViewById(R.id.fab_toCamera2);
         listOfItems = (ListView) findViewById(R.id.lv_items);
         items = new String[] {"apple, sunscreen, chair, frozen chicken, shampoo, razor"};
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items); // <Item> // ItemList.Item
         listOfItems.setAdapter(adapter);
     }
 
