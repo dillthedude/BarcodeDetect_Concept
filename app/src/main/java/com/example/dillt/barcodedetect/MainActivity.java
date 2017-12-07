@@ -54,11 +54,11 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ItemList.loadItems(this); // Apparently this is important to do (maybe? ask trent)
+        ItemList.loadItems(this); // Apparently this is important to do
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        String[] groups = {"Home", "Food", "Bathroom", "Incidentals"};
-        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, groups);
+        //categories = new String[] {"Groceries", "Kitchen", "Auto", "Toys/Games", "Unsorted"};
+        categoryAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, ItemList.items);
         myListView.setAdapter(categoryAdapter);
 
         if(Build.VERSION.SDK_INT>=24){
@@ -69,7 +69,6 @@ public class MainActivity extends Activity {
                 e.printStackTrace();
             }
         }
-        ItemList.loadItems(this);
         categoryAdapter.notifyDataSetChanged();
 
         // Jump to subGroupActivity by way of any list button
