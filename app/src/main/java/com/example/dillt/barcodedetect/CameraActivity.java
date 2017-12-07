@@ -122,8 +122,8 @@ public class CameraActivity extends Activity {
     public void barCodeRequest(View view) {
         // General API URL code:  https://api.upcdatabase.org/search/{id}/{api_key}
         String OA = "kpf97zybaryzuhzjn7y7jx7s"; //API key
-        String url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
-        //url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
+        String url;// = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
+        url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
 // View for Testing
         final TextView mTextView = (TextView) findViewById(R.id.textView);
 // Instantiate the RequestQueue.
