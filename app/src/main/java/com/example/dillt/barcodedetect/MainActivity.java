@@ -48,6 +48,8 @@ public class MainActivity extends Activity {
     FloatingActionButton btn_toCamera;
     static final String TAG = "Main Activity";
 
+    static final String EXTRA_MESSAGE = "com.example.dillt.barcodedetect.MESSAGE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,17 @@ public class MainActivity extends Activity {
         ItemList.loadItems(this);
         categoryAdapter.notifyDataSetChanged();
 
-
+        // Jump to subGroupActivity by way of any list button
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object object = parent.getItemAtPosition(position);
+                String i = (String) object;
+                Intent groupIntent = new Intent(MainActivity.this, subGroupActivity.class);
+                groupIntent.putExtra(EXTRA_MESSAGE, i);
+                startActivity(groupIntent);
+            }
+        });
     }
 
     protected void onPause(){

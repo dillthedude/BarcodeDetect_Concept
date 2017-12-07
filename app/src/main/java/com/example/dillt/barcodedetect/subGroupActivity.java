@@ -23,7 +23,7 @@ public class subGroupActivity extends Activity {
     FloatingActionButton to_camera;
     String nameOfGroup;
 
-    public static final String EXTRA_MESSAGE = "com.exampe.dillt.Message";
+    public static final String EXTRA_MESSAGE = "com.example.dillt.Message";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
@@ -32,6 +32,7 @@ public class subGroupActivity extends Activity {
         nameOfGroup = "Food"; // <------ we will need to change this depending on the intent that accesses this activity
 
         Intent intent = getIntent(); //Create Intent and extract info from the intent that brought us here
+        nameOfGroup = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         to_camera = (FloatingActionButton) findViewById(R.id.fab_toCamera2);
         listOfItems = (ListView) findViewById(R.id.lv_items);
@@ -44,7 +45,7 @@ public class subGroupActivity extends Activity {
                 Object object = parent.getItemAtPosition(position); //Create Object from that position
                 Item item = (Item) object; //cast Object to Item
                 Intent groupIntent = new Intent(subGroupActivity.this, ItemViewActivity.class);
-                groupIntent.putExtra("com.example.dillt.barcodedectect.MESSAGE", item.getName()); // Add item name to Intent
+                groupIntent.putExtra(EXTRA_MESSAGE, item.getName()); // Add item name to Intent
                 startActivity(groupIntent); //Pass intent
             }
         });

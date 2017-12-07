@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -32,6 +33,8 @@ public class ItemViewActivity extends Activity {
     Button goToSite;
     Item item;
 
+    static String TAG = "ItemViewACtivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +42,7 @@ public class ItemViewActivity extends Activity {
 
         Intent intent = getIntent();
         String i = intent.getStringExtra(subGroupActivity.EXTRA_MESSAGE);
+        Log.i(TAG, i);
         Item item = ItemList.getItem(i);
 
         itemName = (EditText) findViewById(R.id.pt_itemName);
@@ -55,7 +59,7 @@ public class ItemViewActivity extends Activity {
 
         // Checks Item for a url and sends implicit Intent so User can visit the website
         goToSite.setEnabled(true);
-        final String finalUrl = item.getURL();
+        final String finalUrl = item.getProductUrl();
         goToSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
