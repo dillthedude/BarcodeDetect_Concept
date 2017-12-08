@@ -198,6 +198,7 @@ public class CameraActivity extends Activity {
 
     // Pass Item to ItemViewActivity to edit Item
     void passToItemView(String name) {
+
         Intent itemIntent = new Intent(CameraActivity.this, ItemViewActivity.class);
         itemIntent.putExtra(EXTRA_MESSAGE, name);
         startActivity(itemIntent);
