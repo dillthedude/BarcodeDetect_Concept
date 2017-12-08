@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,7 @@ public class subGroupActivity extends Activity {
 
         Intent intent = getIntent(); //Create Intent and extract info from the intent that brought us here
         nameOfGroup = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        Log.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", EXTRA_MESSAGE);
 
         to_camera = (FloatingActionButton) findViewById(R.id.fab_toCamera2);
         listOfItems = (ListView) findViewById(R.id.lv_items);
@@ -47,6 +49,15 @@ public class subGroupActivity extends Activity {
                 groupIntent.putExtra(EXTRA_MESSAGE, item.getName()); // Add item name to Intent
                 startActivity(groupIntent); //Pass intent
             }
+        });
+
+        listOfItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+                Log.v("long clicked","pos: " + pos);
+                return true;
+            }
+
         });
     }
 

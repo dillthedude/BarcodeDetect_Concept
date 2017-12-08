@@ -44,7 +44,7 @@ import java.util.Locale;
 
 public class MainActivity extends Activity {
     ListView myListView;
-    ArrayAdapter<Item> categoryAdapter;
+    ArrayAdapter<String> categoryAdapter;
     FloatingActionButton btn_toCamera;
     static final String TAG = "Main Activity";
 
@@ -57,7 +57,8 @@ public class MainActivity extends Activity {
         ItemList.loadItems(this); // Loads items from sharedPrefences
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ItemList.items);
+        String[] groups = {"Home", "Food", "Bathroom", "Unsorted"};
+        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, groups);
         myListView.setAdapter(categoryAdapter);
 
         if(Build.VERSION.SDK_INT>=24){
@@ -77,9 +78,9 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object object = parent.getItemAtPosition(position);
-                String i = (String) object;
+                //String i = (String) object; // this crashes the app. LogCat says Item cannot be cast to String
                 Intent groupIntent = new Intent(MainActivity.this, subGroupActivity.class);
-                groupIntent.putExtra(EXTRA_MESSAGE, i);
+                //groupIntent.putExtra(EXTRA_MESSAGE, i);
                 startActivity(groupIntent);
             }
         });
