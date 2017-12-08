@@ -2,6 +2,7 @@ package com.example.dillt.barcodedetect;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -20,12 +21,13 @@ public class ItemList {
     private static final ItemList ourInstance = new ItemList();
 
     public static List<Item> items;
-
+    public static boolean shop;
     public static ItemList getInstance() {
         return ourInstance;
     }
 
     private ItemList() { items = new LinkedList<>();
+        shop = false;
     }
 
     public static void addItem(Item item) {
@@ -34,7 +36,11 @@ public class ItemList {
         else {
             int i = items.indexOf(item);
             items.get(i).quantity++;
+            if (items.get(i).getQuantity() > 5)
+                shop = true;
         }
+        if (items.size() > 15)
+            shop = true;
     }
 
     public static void removeItem(Item item) {
@@ -54,6 +60,8 @@ public class ItemList {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getGroup().equals(name))
                 group.add(items.get(i));
+            if (group.size() > 10)
+                shop = true;
         }
         // Should be an alphabetical sort. If app crashes at this function, comment out.
         Collections.sort(items, new Comparator<Item>() {
@@ -65,7 +73,14 @@ public class ItemList {
         return group;
     }
 
-
+    public static void goShopping(Context context) {
+        if (shop == true) {
+            CharSequence text = "Time to go shopping!";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
+    }
     public static void saveItems(Context context) {
         SharedPreferences save = context.getSharedPreferences("default_settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = save.edit();

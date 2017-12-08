@@ -44,7 +44,7 @@ import java.util.Locale;
 
 public class MainActivity extends Activity {
     ListView myListView;
-    ArrayAdapter<String> categoryAdapter;   // <----------
+    ArrayAdapter<Item> categoryAdapter;
     FloatingActionButton btn_toCamera;
     static final String TAG = "Main Activity";
 
@@ -54,11 +54,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ItemList.loadItems(this); // Apparently this is important to do
+        ItemList.loadItems(this); // Loads items from sharedPrefences
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        //categories = new String[] {"Groceries", "Kitchen", "Auto", "Toys/Games", "Unsorted"};
-        categoryAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, ItemList.items);
+        categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, ItemList.items);
         myListView.setAdapter(categoryAdapter);
 
         if(Build.VERSION.SDK_INT>=24){
@@ -70,6 +69,8 @@ public class MainActivity extends Activity {
             }
         }
         categoryAdapter.notifyDataSetChanged();
+
+        ItemList.goShopping(getApplicationContext());
 
         // Jump to subGroupActivity by way of any list button
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,6 +85,7 @@ public class MainActivity extends Activity {
         });
     }
 
+    @Override
     protected void onPause(){
         super.onPause();
         ItemList.saveItems(this);

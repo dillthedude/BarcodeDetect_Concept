@@ -152,7 +152,9 @@ public class CameraActivity extends Activity {
                         String test = i.getName() + i.getUpc() + i.getBrandName() + i.getShortDescription();
                         mTextView.setText(test);
 
-                        ItemList.addItem(i); // ***THIS SEEMS TO REFERENCE A NULL POINTER***
+                        ItemList.addItem(i); // Adds item to itemList in Singleton Class
+                        ItemList.saveItems(getApplicationContext());
+                        ItemList.goShopping(getApplicationContext());
 
                     }
                 }, new Response.ErrorListener() {
@@ -160,7 +162,7 @@ public class CameraActivity extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.i("Connection", "Error Connecting");
-                        Log.i("hi",error.toString());
+                        Log.i("Read Error",error.toString());
 
                     }
                 });
@@ -168,12 +170,5 @@ public class CameraActivity extends Activity {
 
 // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
-    }
-
-    public void test(View view) {
-        ItemList.saveItems(this);
-        ItemList.loadItems(this);
-
-
     }
 }
