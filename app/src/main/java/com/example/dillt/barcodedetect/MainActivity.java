@@ -58,6 +58,7 @@ public class MainActivity extends Activity {
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
         String[] groups = {"Home", "Food", "Bathroom", "Unsorted"};
+
         categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, groups);
         myListView.setAdapter(categoryAdapter);
 
