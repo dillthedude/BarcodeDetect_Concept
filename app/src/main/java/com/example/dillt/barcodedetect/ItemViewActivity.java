@@ -42,7 +42,7 @@ public class ItemViewActivity extends Activity {
 
         Intent intent = getIntent();
         String i = intent.getStringExtra(subGroupActivity.EXTRA_MESSAGE);
-        Log.i(TAG, i);
+        Log.i(TAG, i); // Output the name of the Item, in case it's wrong
         Item item = ItemList.getItem(i);
 
         itemName = (EditText) findViewById(R.id.pt_itemName);
