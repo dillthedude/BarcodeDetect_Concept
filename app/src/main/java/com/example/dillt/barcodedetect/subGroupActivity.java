@@ -24,7 +24,8 @@ public class subGroupActivity extends Activity {
     FloatingActionButton to_camera;
     String nameOfGroup;
 
-    public static final String EXTRA_MESSAGE = "com.example.dillt.barcodedetect.Message";
+    public static final String EXTRA_MESSAGE = "GROUPHASH";
+    static final String CAMERA_ITEM = "CAMERAHASH";
 
     /**
      * subGroupActivity displays a list of items in the group the user selected.
@@ -38,7 +39,7 @@ public class subGroupActivity extends Activity {
 
         Intent intent = getIntent(); //Create Intent and extract info from the intent that brought us here
         nameOfGroup = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        Log.d("~~~~~~~~~~~~", EXTRA_MESSAGE);
+        System.out.print(nameOfGroup);
 
         to_camera = (FloatingActionButton) findViewById(R.id.fab_toCamera2);
         listOfItems = (ListView) findViewById(R.id.lv_items);
@@ -51,7 +52,7 @@ public class subGroupActivity extends Activity {
                 Object object = parent.getItemAtPosition(position); //Create Object from that position
                 Item item = (Item) object; //cast Object to Item
                 Intent groupIntent = new Intent(subGroupActivity.this, ItemViewActivity.class);
-                groupIntent.putExtra(EXTRA_MESSAGE, item.getName()); // Add item name to Intent
+                groupIntent.putExtra(CAMERA_ITEM, item.getName()); // Add item name to Intent
                 startActivity(groupIntent); //Pass intent
             }
         });

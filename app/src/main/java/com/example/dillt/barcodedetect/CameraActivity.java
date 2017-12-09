@@ -54,7 +54,7 @@ public class CameraActivity extends Activity {
     static final int CAM_REQUEST = 1;
 
     static final String TAG = "Camera Activity";
-    static final String EXTRA_MESSAGE = "com.example.dillt.barcodedetect.EXTRA_MESSAGE";
+    static final String CAMERA_ITEM = "CAMERAHASH";
 
 
     @Override
@@ -200,7 +200,7 @@ public class CameraActivity extends Activity {
     void passToItemView(String name) {
 
         Intent itemIntent = new Intent(CameraActivity.this, ItemViewActivity.class);
-        itemIntent.putExtra(EXTRA_MESSAGE, name);
+        itemIntent.putExtra(CAMERA_ITEM, name);
         startActivity(itemIntent);
     }
 }

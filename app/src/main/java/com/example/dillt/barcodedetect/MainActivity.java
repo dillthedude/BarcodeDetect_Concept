@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
     FloatingActionButton btn_toCamera;
     static final String TAG = "Main Activity";
 
-    static final String EXTRA_MESSAGE = "com.example.dillt.barcodedetect.MESSAGE";
+    static final String EXTRA_MESSAGE = "GROUPHASH";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +82,8 @@ public class MainActivity extends Activity {
                 String i = (String) object; // this crashes the app. LogCat says Item cannot be cast to String
                 // Should not be an Item, should just be a String
                 Intent groupIntent = new Intent(MainActivity.this, subGroupActivity.class);
+                //groupIntent.putExtra(EXTRA_MESSAGE, i);
+
                 groupIntent.putExtra(EXTRA_MESSAGE, i); //
                 startActivity(groupIntent);
             }
