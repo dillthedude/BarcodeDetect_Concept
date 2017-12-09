@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
  * Creates an Item instance from UPC String and/or name String.
  * Variables can be left null or empty, usage should check for null pointers.
  * Manipulation of Items usually happens through ItemList class.
+ * @author Trent Gillson & Cordelia
  */
 
 public class Item {
@@ -100,5 +101,4 @@ public class Item {
     public String toString() {
         return getName();
     }
-    public void refresh() {}
 }

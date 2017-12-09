@@ -11,25 +11,34 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
- * Created by Trent on 12/4/2017.
+ * A singleton class implementation which contains a list of items @see items
+ * loaded from the database. The class also implements other functions concerning
+ * item manipulation and can give access to sharing and saving from SharedPrefernces
+ *
+ * @author Trent Gillson
  */
-
 public class ItemList {
     private static final ItemList ourInstance = new ItemList();
 
     public static List<Item> items;
     public static boolean shop;
+
     public static ItemList getInstance() {
         return ourInstance;
     }
 
-    private ItemList() { items = new LinkedList<>();
+    private ItemList() {
+        items = new LinkedList<>();
         shop = false;
     }
 
+    /**
+     * @param item
+     * Adds the specified @see item to the list @link items
+     * after checking condtions of the list. Can change @link shop
+     * to be true.
+     */
     public static void addItem(Item item) {
         if (!items.contains(item))
             items.add(item);
@@ -43,10 +52,20 @@ public class ItemList {
             shop = true;
     }
 
+    /**
+     * @param item
+     * Removes the specified @see item from @link items
+     */
     public static void removeItem(Item item) {
         items.remove(item);
     }
 
+    /**
+     * @param name
+     * Returns the specified item from @link items
+     * by searching the getName variable of items to match @see name
+     * @return item
+     */
     public static Item getItem(String name) {
         for (int i = 0; i < items.size(); i++)
             if (items.get(i).getName().equals(name))
@@ -54,8 +73,13 @@ public class ItemList {
         return null;
     }
 
+    /**
+     * @param name
+     * Searchs the @link items for items with group set to @see name
+     * and adds them into a list @see group to be returned
+     * @return group
+     */
     public static List getGroupList(String name) {
-
         List group = new LinkedList<Item>();
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getGroup().equals(name))
@@ -63,7 +87,7 @@ public class ItemList {
             if (group.size() > 10)
                 shop = true;
         }
-        // Should be an alphabetical sort. If app crashes at this function, comment out.
+        // Sorts items alphabetically into the group
         Collections.sort(items, new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
@@ -73,14 +97,26 @@ public class ItemList {
         return group;
     }
 
+    /**
+     * @param context
+     * Displays a toast to tell the user to shop.
+     * Occurs when @link shop is true, which happens if @link items has more than
+     * 20 items, a group has more than 10 items, or an item has a quantity
+     * of more than 5
+     */
     public static void goShopping(Context context) {
-        if (shop == true) {
+        if (shop) {
             CharSequence text = "Time to go shopping!";
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
     }
+
+    /**
+     * @param context
+     * Saves the list of items @link items into sharedPreferences
+     */
     public static void saveItems(Context context) {
         SharedPreferences save = context.getSharedPreferences("default_settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = save.edit();
@@ -98,10 +134,14 @@ public class ItemList {
         editor.apply();
     }
 
+    /**
+     * @param context
+     * Loads from sharedPreferences to populate the list @link items
+     */
     public static void loadItems(Context context) {
         SharedPreferences load = context.getSharedPreferences("default_settings", Context.MODE_PRIVATE);
         int size = 0;
-        size = load.getInt("size",0);
+        size = load.getInt("size", 0);
         Gson gson = new Gson();
         items.clear();
         for (int i = 0; i < size; i++) {
@@ -111,8 +151,14 @@ public class ItemList {
         }
     }
 
+    /**
+     * @param context
+     * clears the shared prefernces database, mainly used for testing and debugging
+     */
     public static void clearSharedPref(Context context) {
         SharedPreferences load = context.getSharedPreferences("default_settings", Context.MODE_PRIVATE);
-        load.edit().clear();
+        SharedPreferences.Editor editor = load.edit();
+        editor.clear();
+        editor.apply();
     }
 }

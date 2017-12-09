@@ -39,8 +39,11 @@ import java.io.File;
 
 
 /**
- * This CameraActivity class allows the user to add items to the Item List.
+ * This CameraActivity class takes a picture, scans the barcode. and
+ * makes a request to the Walmart API to return a JSON object which is
+ * added as an item to our database
  * Created by cwetzker on 11/8/2017.
+ * @author Trent & Dillon
  */
 
 public class CameraActivity extends Activity {
@@ -69,15 +72,17 @@ public class CameraActivity extends Activity {
                 Intent camera_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 File file = getFile();
                 camera_intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
-                startActivityForResult(camera_intent, CAM_REQUEST);} // this calls onActivityResult() method
+                startActivityForResult(camera_intent, CAM_REQUEST);
+            } // this calls onActivityResult() method
         });
     } // END OF ONCREATE()
 
     /**
      * Create folder if not yet created. Return file for camera to save with.
+     *
      * @return new File
      */
-    private File getFile(){
+    private File getFile() {
         Log.i(TAG, "entered getFile()");
         File folder = new File("sdcard/barcode");
         if (!folder.exists()) {
@@ -89,18 +94,20 @@ public class CameraActivity extends Activity {
 
     /**
      * Necessary for camera activity.
+     *
      * @param requestCode IDK
-     * @param resultCode IDK
-     * @param data IDK
+     * @param resultCode  IDK
+     * @param data        IDK
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String path = "sdcard/barcode/image.jpg";
         myImageView.setImageDrawable(Drawable.createFromPath(path)); // here the image should be drawn to the screen
     }
 
     /**
      * Put photograph on ImageView. Set up detector. Send barcode image and get back barcode number.
+     *
      * @param detectView IDK
      */
     public void detect(View detectView) {
@@ -121,26 +128,24 @@ public class CameraActivity extends Activity {
         Log.i(TAG, "Bar code dectector is set up to read the code");
         Frame frame = new Frame.Builder().setBitmap(myBitmap).build();
         SparseArray<Barcode> barcodes = detector.detect(frame);
-            Barcode thisCode = barcodes.valueAt(0);
-            txtView.setText(thisCode.rawValue); // display info from barcode in txtView
+        Barcode thisCode = barcodes.valueAt(0);
+        txtView.setText(thisCode.rawValue); // display info from barcode in txtView
         cameraCode = thisCode.rawValue;
         Log.i(TAG, "Leaving detect(), should see image, should have barcode");
     }
 
     /**
+     * @param view This class utilizes the Google Volley class to instantiate a HTTP request connection
+     *             to a Walmart API database. We provide the UPC code provided from @Link cameraCode
+     *             to search for a specific item and return a JSON object. We then Parse the JSON Object
+     *             into an item class using GSON library.
      * @author Trent Gillson
-     * @param view
-     * This class utilizes the Google Volley class to instantiate a HTTP request connection
-     * to a Walmart API database. We provide the UPC code provided from @Link cameraCode
-     * to search for a specific item and return a JSON object. We then Parse the JSON Object
-     * into an item class.
-     *
      */
     public void barCodeRequest(View view) {
         // General API URL code:  https://api.upcdatabase.org/search/{id}/{api_key}
         String OA = "kpf97zybaryzuhzjn7y7jx7s"; //API key
-        String url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
-        //url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
+        String url;// = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
+        url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
 // View for Testing
         final TextView mTextView = (TextView) findViewById(R.id.textView);
 // Instantiate the RequestQueue.
@@ -170,7 +175,7 @@ public class CameraActivity extends Activity {
                         mTextView.setText(test);
 
                         ItemList.addItem(i); // Adds item to itemList in Singleton Class
-                        ItemList.saveItems(getApplicationContext());
+                        ItemList.saveItems(getApplicationContext()); //Save current items into database
                         ItemList.goShopping(getApplicationContext());
 
                         passToItemView(i.getName());
@@ -181,7 +186,7 @@ public class CameraActivity extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.i("Connection", "Error Connecting");
-                        Log.i("Read Error",error.toString());
+                        Log.i("Read Error", error.toString());
 
                     }
                 });
@@ -189,13 +194,6 @@ public class CameraActivity extends Activity {
 
 // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
-    }
-
-    public void test(View view) {
-        ItemList.saveItems(this);
-        ItemList.loadItems(this);
-
-
     }
 
     // Pass Item to ItemViewActivity to edit Item
