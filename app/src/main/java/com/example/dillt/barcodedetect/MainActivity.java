@@ -78,10 +78,11 @@ public class MainActivity extends Activity {
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object object = parent.getItemAtPosition(position);
-                //String i = (String) object; // this crashes the app. LogCat says Item cannot be cast to String
+                Object object = parent.getItemAtPosition(position); //Create object from position of KEYDOWN
+                String i = (String) object; // this crashes the app. LogCat says Item cannot be cast to String
+                // Should not be an Item, should just be a String
                 Intent groupIntent = new Intent(MainActivity.this, subGroupActivity.class);
-                //groupIntent.putExtra(EXTRA_MESSAGE, i);
+                groupIntent.putExtra(EXTRA_MESSAGE, i); //
                 startActivity(groupIntent);
             }
         });
@@ -95,11 +96,11 @@ public class MainActivity extends Activity {
     }
 
     public void openCamera(View view) {
-        Log.d(TAG, "entered openCamera() function.");
+        //Log.d(TAG, "entered openCamera() function.");
         Intent intent = new Intent(this, CameraActivity.class);
-        String message = "This is written in Main, but opened in Camera!";
-        intent.putExtra("Extra message", message);
-        Log.d(TAG, "now to start the CameraActivity");
+        //String message = "This is written in Main, but opened in Camera!";
+        //intent.putExtra("Extra message", message);
+        //Log.d(TAG, "now to start the CameraActivity");
         startActivity(intent);
     }
 

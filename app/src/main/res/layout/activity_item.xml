@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
+        android:hint="@string/item_name"
         android:inputType="textPersonName"
-        android:text="@string/item_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
         android:layout_marginTop="48dp"
         android:ems="10"
         android:inputType="textCapSentences"
-        android:text="@string/item_description"
+        android:hint="@string/item_description"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pt_itemName" />
 
@@ -49,7 +49,7 @@
         android:layout_marginTop="48dp"
         android:ems="10"
         android:inputType="number"
-        android:text="@string/item_quantity"
+        android:hint="@string/item_quantity"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/pt_itemGroup"
         app:layout_constraintTop_toBottomOf="@+id/iv_itemPicture" />
@@ -72,7 +72,7 @@
         android:layout_marginTop="48dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/group_name"
+        android:hint="@string/group_name"
         app:layout_constraintLeft_toRightOf="@+id/et_itemQuantity"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_itemPicture" />

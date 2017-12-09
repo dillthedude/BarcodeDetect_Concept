@@ -24,7 +24,7 @@ public class subGroupActivity extends Activity {
     FloatingActionButton to_camera;
     String nameOfGroup;
 
-    public static final String EXTRA_MESSAGE = "com.example.dillt.Message";
+    public static final String EXTRA_MESSAGE = "com.example.dillt.barcodedetect.Message";
 
     /**
      * subGroupActivity displays a list of items in the group the user selected.

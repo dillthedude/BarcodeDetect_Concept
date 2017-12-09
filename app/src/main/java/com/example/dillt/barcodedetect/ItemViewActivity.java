@@ -29,7 +29,6 @@ public class ItemViewActivity extends Activity {
     EditText itemGroup;
     ImageView itemPicture;
     ToggleButton toggle;
-    Boolean canEdit = false;
     Button goToSite;
     Item item;
 
@@ -106,7 +105,7 @@ public class ItemViewActivity extends Activity {
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    canEdit = true; //The toggle is enabled
+
                 } else {
                     // Save new information to Item variables
                     itemName = (EditText) findViewById(R.id.pt_itemName);
@@ -114,7 +113,7 @@ public class ItemViewActivity extends Activity {
                     itemQuantity = (EditText) findViewById(R.id.et_itemQuantity);
                     itemGroup = (EditText) findViewById(R.id.pt_itemGroup);
                     itemPicture = (ImageView) findViewById(R.id.iv_itemPicture);
-                    canEdit = false; // The toggle is disabled
+
                 }
             }
         });
@@ -122,7 +121,7 @@ public class ItemViewActivity extends Activity {
         itemName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (canEdit) {
+                if (toggle.isChecked()) {
                     itemName.setEnabled(true);
                 } else {
                     itemName.setEnabled(false);
@@ -133,7 +132,7 @@ public class ItemViewActivity extends Activity {
         itemDescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(canEdit) {
+                if(toggle.isChecked()) {
                     itemDescription.setEnabled(true);
                 } else {
                     itemDescription.setEnabled(false);
@@ -144,7 +143,7 @@ public class ItemViewActivity extends Activity {
         itemGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (canEdit) {
+                if (toggle.isChecked()) {
                     itemGroup.setEnabled(true);
                 } else {
                     itemGroup.setEnabled(false);
@@ -155,7 +154,7 @@ public class ItemViewActivity extends Activity {
         itemQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (canEdit) {
+                if (toggle.isChecked()) {
                     itemQuantity.setEnabled(true);
                 } else {
                     itemQuantity.setEnabled(false);
@@ -163,5 +162,26 @@ public class ItemViewActivity extends Activity {
             }
         });
 
+    }
+
+    /**
+     * Saves values to Item when leaving Activity
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (item != null) {
+            itemName.setText(item.getName());
+        }
+        if (item != null) {
+            itemDescription.setText(item.getShortDescription());
+        }
+        if (item != null) {
+            itemQuantity.setText(item.getQuantity());
+        }
+        if (item != null) {
+            itemGroup.setText(item.getGroup());
+        }
     }
 }
