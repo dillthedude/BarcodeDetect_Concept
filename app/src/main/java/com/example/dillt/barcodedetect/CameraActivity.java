@@ -157,7 +157,7 @@ public class CameraActivity extends Activity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.i("Connection", "Successful Conect");
+                        Log.i("Connection", "Successful Connect");
 
                         JSONObject obj = null;
                         try {

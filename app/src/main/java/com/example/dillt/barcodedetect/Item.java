@@ -1,6 +1,7 @@
 package com.example.dillt.barcodedetect;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 /**
  * Created by cwetzker on 11/1/2017.
@@ -11,13 +12,13 @@ import android.support.annotation.NonNull;
  */
 
 public class Item {
-    private String name;
+    public String name;
     private String upc;
     public int quantity;
     private String shortDescription;
     private String brandName;
     private String mediumImage;
-    private String group;
+    public String group;
     private float msrp;
     private float salePrice;
     private String productUrl;
@@ -48,7 +49,13 @@ public class Item {
     /** @return name of class, can be NULL **/
     public String getName() { return name; }
     /** @param name is reset by outside user. No restrictions on contents of String **/
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        if (name == null) {
+            Log.e("Name is actually Null.", "Please stop torturing me");
+            return;
+        }
+            this.name = name;
+    }
 
     /** @param upc is set by User. Not implemented. No restrictions on contents of String **/
     public void setUpc(String upc) {

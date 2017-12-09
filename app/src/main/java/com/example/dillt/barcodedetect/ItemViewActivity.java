@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -19,6 +18,9 @@ import android.widget.ToggleButton;
  * Created by cwetzker on 11/10/2017.
  * ItemViewActivity governs the behavior and editing of an individual Item in the app. Relevant
  * information is displayed, and with the toggle button, can be edited manually by the user.
+ *
+ * NOTE: Getting information from the Item and Setting information to the Item is disabled due to
+ * an unknown NULL pointer Exception.
  */
 
 public class ItemViewActivity extends Activity {
@@ -56,16 +58,17 @@ public class ItemViewActivity extends Activity {
         goToSite = (Button) findViewById(R.id.b_gotoSite);
 
         // If the value exists in Item, add to layout//
-        if (item != null) {
-            itemName.setText(item.getName());
+        if (item.getName() != null) {
+            String name = item.getName();
+            itemName.setText(name);
         }
-        if (item != null) {
+        if (item.getShortDescription() != null) {
             itemDescription.setText(item.getShortDescription());
         }
         if (item != null) {
             itemQuantity.setText(item.getQuantity());
         }
-        if (item != null) {
+        if (item.getGroup() != null) {
             itemGroup.setText(item.getGroup());
         }
 
@@ -77,6 +80,11 @@ public class ItemViewActivity extends Activity {
         } else {
             finalUrl = null;
         }
+
+        /**
+         * GoToSite references a button linked to the item website. If implemented, it would have
+         * redirected the User to their preferred  web browser.
+         */
         goToSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,21 +107,35 @@ public class ItemViewActivity extends Activity {
         // NOTE: Accepts any input from USER  //
         ////////////////////////////////////////
 
-        // toggle controls the editing of all EditText fields//
+        /**
+         * toggle controls the editing of all EditText fields
+         * setOnCheckedChangeListener() governs the editing of the fields; when the toggle is 'On',
+         * all fields can be edited.
+         */
         toggle = (ToggleButton) findViewById(R.id.tb_editFields);
-
+        toggle.setChecked(true); // set editing to 'on'
+        final String[] nameString = new String[1];
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-
+                    itemName.setEnabled(true);
+                    itemQuantity.setEnabled(true);
+                    itemDescription.setEnabled(true);
+                    itemGroup.setEnabled(true);
                 } else {
-                    // Save new information to Item variables
-                    itemName = (EditText) findViewById(R.id.pt_itemName);
-                    itemDescription = (EditText) findViewById(R.id.et_itemDescription);
-                    itemQuantity = (EditText) findViewById(R.id.et_itemQuantity);
-                    itemGroup = (EditText) findViewById(R.id.pt_itemGroup);
-                    itemPicture = (ImageView) findViewById(R.id.iv_itemPicture);
-
+                    itemName.setEnabled(false);
+                    itemQuantity.setEnabled(false);
+                    itemDescription.setEnabled(false);
+                    itemGroup.setEnabled(false);
+                    /* Save new information to Item variables
+                    nameString[0] = new String ("Unnamed");
+                    nameString[0] = itemName.getText().toString();
+                    Log.i("~~~~~~~~~", nameString[0]);
+                    item.setName(nameString[0]);
+                    itemDescription.setText(item.getShortDescription());
+                    itemQuantity.setText(item.getQuantity());
+                    itemGroup.setText(item.getGroup());
+                    /**/
                 }
             }
         });
@@ -122,9 +144,11 @@ public class ItemViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (toggle.isChecked()) {
-                    itemName.setEnabled(true);
+                    //itemName.setEnabled(true);
                 } else {
-                    itemName.setEnabled(false);
+                    //itemName.setEnabled(false);
+                    //String name = itemName.getText().toString();
+                    //item.setName(name);
                 }
             }
         });
@@ -133,9 +157,9 @@ public class ItemViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(toggle.isChecked()) {
-                    itemDescription.setEnabled(true);
+                    //itemDescription.setEnabled(true);
                 } else {
-                    itemDescription.setEnabled(false);
+                    //itemDescription.setEnabled(false);
                 }
             }
         });
@@ -144,9 +168,9 @@ public class ItemViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (toggle.isChecked()) {
-                    itemGroup.setEnabled(true);
+                    //itemGroup.setEnabled(true);
                 } else {
-                    itemGroup.setEnabled(false);
+                    //itemGroup.setEnabled(false);
                 }
             }
         });
@@ -155,9 +179,9 @@ public class ItemViewActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (toggle.isChecked()) {
-                    itemQuantity.setEnabled(true);
+                    //itemQuantity.setEnabled(true);
                 } else {
-                    itemQuantity.setEnabled(false);
+                    //itemQuantity.setEnabled(false);
                 }
             }
         });
@@ -165,23 +189,21 @@ public class ItemViewActivity extends Activity {
     }
 
     /**
-     * Saves values to Item when leaving Activity
+     * Saves values to Item when leaving Activity.
+     * Not implemented. Throws a NULL exception.
      */
     @Override
     protected void onPause() {
         super.onPause();
-
-        if (item != null) {
-            itemName.setText(item.getName());
-        }
-        if (item != null) {
-            itemDescription.setText(item.getShortDescription());
-        }
-        if (item != null) {
-            itemQuantity.setText(item.getQuantity());
-        }
-        if (item != null) {
-            itemGroup.setText(item.getGroup());
-        }
+        /*
+        String[] nameString = new String[0];
+        nameString[0] = "Unnamed";
+        nameString[0] = itemName.getText().toString();
+        Log.i("~~~~~~~~~", nameString[0]);
+        item.setName(nameString[0]);
+        itemDescription.setText(item.getShortDescription());
+        itemQuantity.setText(item.getQuantity());
+        itemGroup.setText(item.getGroup());
+        /**/
     }
 }
