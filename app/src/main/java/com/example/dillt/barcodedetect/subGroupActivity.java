@@ -26,6 +26,11 @@ public class subGroupActivity extends Activity {
 
     public static final String EXTRA_MESSAGE = "com.example.dillt.Message";
 
+    /**
+     * subGroupActivity displays a list of items in the group the user selected.
+     * @param savedInstanceState is maintained by super classes
+     * @param persistentState is maintained by super classes
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
@@ -33,7 +38,7 @@ public class subGroupActivity extends Activity {
 
         Intent intent = getIntent(); //Create Intent and extract info from the intent that brought us here
         nameOfGroup = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        Log.d("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", EXTRA_MESSAGE);
+        Log.d("~~~~~~~~~~~~", EXTRA_MESSAGE);
 
         to_camera = (FloatingActionButton) findViewById(R.id.fab_toCamera2);
         listOfItems = (ListView) findViewById(R.id.lv_items);

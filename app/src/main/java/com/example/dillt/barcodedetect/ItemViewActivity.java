@@ -33,8 +33,12 @@ public class ItemViewActivity extends Activity {
     Button goToSite;
     Item item;
 
-    static String TAG = "ItemViewACtivity";
+    static String TAG = "ItemViewActivity";
 
+    /**
+     * OnCreate launches the Activity and governs the display and editablity of Item class variables
+     * @param savedInstanceState this is the saved instance maintained by the app
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +47,7 @@ public class ItemViewActivity extends Activity {
         Intent intent = getIntent();
         String i = intent.getStringExtra(subGroupActivity.EXTRA_MESSAGE);
         //Log.i(TAG, i); // Output the name of the Item, in case it's wrong
-        Item item = ItemList.getItem(i);
+        item = ItemList.getItem(i);
 
         itemName = (EditText) findViewById(R.id.pt_itemName);
         itemDescription = (EditText) findViewById(R.id.et_itemDescription);
@@ -52,31 +56,51 @@ public class ItemViewActivity extends Activity {
         itemPicture = (ImageView) findViewById(R.id.iv_itemPicture);
         goToSite = (Button) findViewById(R.id.b_gotoSite);
 
-        itemName.setText(item.getName());
-        itemDescription.setText(item.getShortDescription());
-        itemQuantity.setText(item.getQuantity());
-        itemGroup.setText(item.getGroup());
+        // If the value exists in Item, add to layout//
+        if (item != null) {
+            itemName.setText(item.getName());
+        }
+        if (item != null) {
+            itemDescription.setText(item.getShortDescription());
+        }
+        if (item != null) {
+            itemQuantity.setText(item.getQuantity());
+        }
+        if (item != null) {
+            itemGroup.setText(item.getGroup());
+        }
 
-        // Checks Item for a url and sends implicit Intent so User can visit the website
+        // Checks Item for a url and sends implicit Intent so User can visit the website//
         goToSite.setEnabled(true);
-        final String finalUrl = item.getProductUrl();
+        final String finalUrl;
+        if (item != null) {
+            finalUrl = item.getProductUrl();
+        } else {
+            finalUrl = null;
+        }
         goToSite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!(finalUrl == null)) {
-                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
-                    websiteIntent.setData(Uri.parse(finalUrl));
-                } else {
+                if (finalUrl == null) {
                     Context context = getApplicationContext();
                     CharSequence text = "There is no website registered with this Item.";
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(context, text, duration);
                     toast.show();
+
+                } else {
+                    Intent websiteIntent = new Intent(Intent.ACTION_VIEW);
+                    websiteIntent.setData(Uri.parse(finalUrl));
                 }
             }
         });
 
-        // toggle controls the editing of all EditText fields
+        ////////////////////////////////////////
+        // Button Editing Control             //
+        // NOTE: Accepts any input from USER  //
+        ////////////////////////////////////////
+
+        // toggle controls the editing of all EditText fields//
         toggle = (ToggleButton) findViewById(R.id.tb_editFields);
 
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -84,6 +108,7 @@ public class ItemViewActivity extends Activity {
                 if (isChecked) {
                     canEdit = true; //The toggle is enabled
                 } else {
+                    // Save new information to Item variables
                     itemName = (EditText) findViewById(R.id.pt_itemName);
                     itemDescription = (EditText) findViewById(R.id.et_itemDescription);
                     itemQuantity = (EditText) findViewById(R.id.et_itemQuantity);
@@ -94,17 +119,13 @@ public class ItemViewActivity extends Activity {
             }
         });
 
-        //////////////////////////////
-        //  Button Editing Control  //
-        //////////////////////////////
-
         itemName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (canEdit) {
                     itemName.setEnabled(true);
                 } else {
-                    itemName.setEnabled(false); //ignore and don't edit
+                    itemName.setEnabled(false);
                 }
             }
         });
