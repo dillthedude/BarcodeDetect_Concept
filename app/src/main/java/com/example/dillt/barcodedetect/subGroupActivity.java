@@ -7,6 +7,9 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,6 +45,7 @@ public class subGroupActivity extends Activity {
         adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, ItemList.items);
         listOfItems.setAdapter(adapter);
 
+        registerForContextMenu(listOfItems); // this registers the groups in the ListView as things that can bring up a context menu
 
         listOfItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -55,18 +59,45 @@ public class subGroupActivity extends Activity {
         });
 
 
-        listOfItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-                Log.v("long clicked","pos: " + pos);
-                return true;
-            }
-
-        });
+//        listOfItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+//                Log.v("long clicked","pos: " + pos);
+//                return true;
+//            }
+//
+//        });
     }
 
     public void openCamera(View view) {
         Intent intent = new Intent(this, CameraActivity.class);
         startActivity(intent);
+    }
+    // this function is called on a long press of a group name in the ListView
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.myfuncontextmenu, menu);
+    }
+    // this function is called when a context menu item is selected
+    public boolean onContextItemSelected(MenuItem item) {
+        //find out which menu item was pressed
+        switch (item.getItemId()) {
+            case R.id.option2:
+                deleteTheItem();
+                adapter.notifyDataSetChanged();
+                return true;
+            default:
+                return false;
+        }
+    }
+    public void deleteTheItem() {
+        ItemList.items.clear();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

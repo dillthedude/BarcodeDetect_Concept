@@ -56,12 +56,11 @@ public class CameraActivity extends Activity {
     static final String TAG = "Camera Activity";
     static final String CAMERA_ITEM = "CAMERAHASH";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         txtView = (TextView) findViewById(R.id.txtContent);
         cameraButton = (Button) findViewById(R.id.button_cam);
@@ -147,7 +146,7 @@ public class CameraActivity extends Activity {
         String url;// = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=035000521019"; // TESTING
         url = "http://api.walmartlabs.com/v1/items?apiKey=kpf97zybaryzuhzjn7y7jx7s&upc=" + cameraCode; //REAL
 // View for Testing
-        final TextView mTextView = (TextView) findViewById(R.id.textView);
+        //final TextView mTextView = (TextView) findViewById(R.id.textView);
 // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
 // Request a JSON response from the provided URL.
@@ -171,8 +170,8 @@ public class CameraActivity extends Activity {
                         i.setQuantity(1);
                         i.setGroup("Unsorted");
 
-                        String test = i.getName() + i.getUpc() + i.getBrandName() + i.getShortDescription();
-                        mTextView.setText(test);
+                        //String test = i.getName() + i.getUpc() + i.getBrandName() + i.getShortDescription();
+                        //mTextView.setText(test);
 
                         ItemList.addItem(i); // Adds item to itemList in Singleton Class
                         ItemList.saveItems(getApplicationContext()); //Save current items into database

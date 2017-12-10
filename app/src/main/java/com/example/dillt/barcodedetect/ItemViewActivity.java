@@ -67,7 +67,6 @@ public class ItemViewActivity extends Activity {
         }
         if (item != null) {
             itemQuantity.setText(String.valueOf(item.getQuantity()));
-            Log.e("~~~~~~~~~~~~~~~~", "~~~~~~~~~~~~~~~~~~");
         }
         if (item.getGroup() != null) {
             itemGroup.setText(item.getGroup());
@@ -128,15 +127,10 @@ public class ItemViewActivity extends Activity {
                     itemQuantity.setEnabled(false);
                     itemDescription.setEnabled(false);
                     itemGroup.setEnabled(false);
-                    /* Save new information to Item variables
-                    nameString[0] = new String ("Unnamed");
-                    nameString[0] = itemName.getText().toString();
-                    Log.i("~~~~~~~~~", nameString[0]);
-                    item.setName(nameString[0]);
-                    itemDescription.setText(item.getShortDescription());
-                    itemQuantity.setText(item.getQuantity());
-                    itemGroup.setText(item.getGroup());
-                    /**/
+                    item.setName(itemName.getText().toString());
+                    item.setShortDescription(itemDescription.getText().toString());
+                    item.setQuantity(itemQuantity.getText().charAt(0) - 48);
+                    item.setGroup(itemGroup.getText().toString());
                 }
             }
         });
@@ -191,20 +185,13 @@ public class ItemViewActivity extends Activity {
 
     /**
      * Saves values to Item when leaving Activity.
-     * Not implemented. Throws a NULL exception.
      */
     @Override
     protected void onPause() {
         super.onPause();
-        /*
-        String[] nameString = new String[0];
-        nameString[0] = "Unnamed";
-        nameString[0] = itemName.getText().toString();
-        Log.i("~~~~~~~~~", nameString[0]);
-        item.setName(nameString[0]);
-        itemDescription.setText(item.getShortDescription());
-        itemQuantity.setText(item.getQuantity());
-        itemGroup.setText(item.getGroup());
-        /**/
+        item.setName(itemName.getText().toString());
+        item.setShortDescription(itemDescription.getText().toString());
+        item.setQuantity(itemQuantity.getText().charAt(0) - 48);
+        item.setGroup(itemGroup.getText().toString());
     }
 }

@@ -67,8 +67,12 @@ public class MainActivity extends Activity {
         ItemList.loadItems(this); // Loads items from sharedPrefences
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        Item funnyItem = new Item("Apples");
-        ItemList.addItem(funnyItem);
+        //Item funnyItem = new Item("Apples");
+        //ItemList.addItem(funnyItem);
+        // Doritos Nacho Cheese Tortilla Chips 1.75 oz. Bag
+        // Abound NEW Black Women's Size Small S Geometric Print Fitted Tank Cami Top
+        // Darrell Lea Liquorice, Soft Eating, Blueberry Pomegranate Flavor
+
 
         categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, groups);
         myListView.setAdapter(categoryAdapter);
