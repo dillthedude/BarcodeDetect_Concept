@@ -30,21 +30,18 @@ public class subGroupActivity extends Activity {
     /**
      * subGroupActivity displays a list of items in the group the user selected.
      * @param savedInstanceState is maintained by super classes
-     * @param persistentState is maintained by super classes
      */
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subgroup);
-
         Intent intent = getIntent(); //Create Intent and extract info from the intent that brought us here
         nameOfGroup = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        System.out.print(nameOfGroup);
-
         to_camera = (FloatingActionButton) findViewById(R.id.fab_toCamera2);
         listOfItems = (ListView) findViewById(R.id.lv_items);
-        adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, ItemList.getGroupList(nameOfGroup));
+        adapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, ItemList.items);
         listOfItems.setAdapter(adapter);
+
 
         listOfItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -56,6 +53,7 @@ public class subGroupActivity extends Activity {
                 startActivity(groupIntent); //Pass intent
             }
         });
+
 
         listOfItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

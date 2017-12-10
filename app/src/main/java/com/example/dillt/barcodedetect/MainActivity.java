@@ -22,7 +22,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,19 +33,29 @@ import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.gson.Gson;
-
 import org.json.JSONObject;
-
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
     ListView myListView;
     ArrayAdapter<String> categoryAdapter;
     FloatingActionButton btn_toCamera;
     static final String TAG = "Main Activity";
+    String[] groups = {"Home", "Food", "Bathroom", "Unsorted"};
+    int pressedGroup = 0;
 
     static final String EXTRA_MESSAGE = "GROUPHASH";
 
@@ -54,13 +63,17 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ItemList.loadItems(this); // Loads items from sharedPrefences
         btn_toCamera = (FloatingActionButton) findViewById(R.id.fab_toCamera);
         myListView = (ListView) findViewById(R.id.lv_itemList);
-        String[] groups = {"Home", "Food", "Bathroom", "Unsorted"};
+        Item funnyItem = new Item("Apples");
+        ItemList.addItem(funnyItem);
 
         categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, groups);
         myListView.setAdapter(categoryAdapter);
+
+        registerForContextMenu(myListView); // this registers the groups in the ListView as things that can bring up a context menu
 
         if(Build.VERSION.SDK_INT>=24){
             try{
@@ -78,16 +91,27 @@ public class MainActivity extends Activity {
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                pressedGroup = position; // save which group was pressed
                 Object object = parent.getItemAtPosition(position); //Create object from position of KEYDOWN
-                String i = (String) object; // this crashes the app. LogCat says Item cannot be cast to String
-                // Should not be an Item, should just be a String
+                String i = object.toString();
                 Intent groupIntent = new Intent(MainActivity.this, subGroupActivity.class);
-                //groupIntent.putExtra(EXTRA_MESSAGE, i);
 
                 groupIntent.putExtra(EXTRA_MESSAGE, i); //
                 startActivity(groupIntent);
             }
         });
+
+//        myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+//                Log.v("long clicked","pos: " + pos);
+//                pressedGroup = pos;
+//
+//                registerForContextMenu(myListView); // this registers the groups in the ListView as things that can bring up a context menu
+//                return true;
+//            }
+//        });
+        registerForContextMenu(myListView); // this registers the groups in the ListView as things that can bring up a context menu
     }
 
     @Override
@@ -106,5 +130,64 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    // this function is called on a long press of a group name in the ListView
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.myfuncontextmenu, menu);
+    }
+
+    // this function is called when a context menu item is selected
+    public boolean onContextItemSelected(MenuItem item) {
+        //find out which menu item was pressed
+        switch (item.getItemId()) {
+            case R.id.option2:
+                deleteAGroup();
+                categoryAdapter.notifyDataSetChanged();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public void deleteAGroup() {
+        String[] myNewGroup = new String[3];
+        String s0 = groups[0];
+        String s1 = groups[1];
+        String s2 = groups[2];
+        String s3 = groups[3];
+
+        if (pressedGroup == 0) {
+            String[] newGroups = new String[3];
+            newGroups[0] = s1;
+            newGroups[1] = s2;
+            newGroups[2] = s3;
+            myNewGroup = newGroups;
+        }
+        else if (pressedGroup == 1) {
+            String[] newGroups = new String[3];
+            newGroups[0] = s0;
+            newGroups[1] = s2;
+            newGroups[2] = s3;
+            myNewGroup = newGroups;
+        }
+        else if (pressedGroup == 2) {
+            String[] newGroups = new String[3];
+            newGroups[0] = s0;
+            newGroups[1] = s1;
+            newGroups[2] = s3;
+            myNewGroup = newGroups;
+        }
+        else if (pressedGroup == 3) {
+            String[] newGroups = new String[3];
+            newGroups[0] = s0;
+            newGroups[1] = s1;
+            newGroups[2] = s2;
+            myNewGroup = newGroups;
+        }
+        categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, myNewGroup);
+        myListView.setAdapter(categoryAdapter);
+        categoryAdapter.notifyDataSetChanged();
+    }
 
 }

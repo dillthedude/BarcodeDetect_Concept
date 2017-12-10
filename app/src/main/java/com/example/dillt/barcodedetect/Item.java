@@ -51,7 +51,6 @@ public class Item {
     /** @param name is reset by outside user. No restrictions on contents of String **/
     public void setName(String name) {
         if (name == null) {
-            Log.e("Name is actually Null.", "Please stop torturing me");
             return;
         }
             this.name = name;

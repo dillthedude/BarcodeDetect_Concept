@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -46,8 +47,7 @@ public class ItemViewActivity extends Activity {
         setContentView(R.layout.activity_item);
 
         Intent intent = getIntent();
-        String i = intent.getStringExtra(subGroupActivity.EXTRA_MESSAGE);
-        //Log.i(TAG, i); // Output the name of the Item, in case it's wrong
+        String i = intent.getStringExtra(subGroupActivity.CAMERA_ITEM);
         item = ItemList.getItem(i);
 
         itemName = (EditText) findViewById(R.id.pt_itemName);
@@ -66,7 +66,8 @@ public class ItemViewActivity extends Activity {
             itemDescription.setText(item.getShortDescription());
         }
         if (item != null) {
-            itemQuantity.setText(item.getQuantity());
+            itemQuantity.setText(String.valueOf(item.getQuantity()));
+            Log.e("~~~~~~~~~~~~~~~~", "~~~~~~~~~~~~~~~~~~");
         }
         if (item.getGroup() != null) {
             itemGroup.setText(item.getGroup());
